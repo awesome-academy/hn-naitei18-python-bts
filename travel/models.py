@@ -30,7 +30,7 @@ class Tour(models.Model):
 class Image(models.Model):
   """Model representing Image"""
   tour = models.ForeignKey('Tour', on_delete = models.CASCADE)
-  url = models.ImageField(upload_to = 'images/')
+  url = models.ImageField(upload_to = 'images/tours')
   description = models.CharField(max_length = 100, help_text = "Description for images")
 
 class Booking(models.Model):
@@ -58,7 +58,7 @@ class Booking(models.Model):
 
   def __str__(self):
     """String for representing the Model object."""
-    return self.status
+    return str(self.user)
 
   def get_absolute_url(self):
     """Returns the url to access a particular tour instance."""
@@ -70,22 +70,17 @@ class Review(models.Model):
   tour = models.ForeignKey('Tour', on_delete = models.CASCADE)
   content = models.TextField(max_length = 1000, help_text = "Enter your feeling",null=True, blank=True)
   rating = models.IntegerField(help_text = " Enter 1 - 5")
-  picture = models.CharField(max_length = 100,null=True, blank=True)
+  picture = models.ImageField(upload_to = 'images/reviews', null = True, blank = True)
   create_date = models.DateTimeField(auto_now_add = True)
 
   class Meta:
     ordering = ['-rating','-create_date']
 
-  def __init__(self, arg):
-    super(reviews, self).__init__()
-    self.arg = arg
-
-  class Meta:
-    ordering = ['create_date']
-
   def get_absolute_url(self):
     """Returns the url to access a particular review instance."""
     return reverse('', args=[str(self.id)])
+
+
 
 class Comment(models.Model):
   """docstring for comment"""
@@ -98,13 +93,15 @@ class Comment(models.Model):
   class Meta:
     ordering = ['-create_date']
 
-  def __init__(self, arg):
-    super(comment, self).__init__()
-    self.arg = arg
+  def __str__(self):
+    """String for representing the Model object."""
+    return str(self.user)
 
   def get_absolute_url(self):
     """Returns the url to access a particular comment instance."""
     return reverse('', args=[str(self.id)])
+
+
 
 class Activity(object):
   """docstring for Activity"""
@@ -116,10 +113,6 @@ class Activity(object):
   class Meta:
     ordering = ['-date']
 
-  def __init__(self, arg):
-    super(Activity, self).__init__()
-    self.arg = arg
-
   def __str__(self):
     """String for representing the Model object."""
     return self.acti
@@ -127,3 +120,7 @@ class Activity(object):
   def get_absolute_url(self):
     """Returns the url to access a particular tour instance."""
     return reverse('', args=[str(self.id)])
+
+
+
+
