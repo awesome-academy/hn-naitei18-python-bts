@@ -13,7 +13,7 @@ def front_page(request):
     }
 
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'front_page.html', context=context)
+    return render(request, 'base_generic.html', context=context)
 
 
 class TourListView(generic.ListView):
