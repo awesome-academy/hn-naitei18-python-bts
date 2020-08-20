@@ -32,7 +32,14 @@ class Tour(models.Model):
 class Image(models.Model):
     """Model representing Image"""
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
-    url = models.ImageField(upload_to='images/tours')
+
+    def upload_location(self, filename):
+        filebase, extension = filename.split('.')
+        return 'images/%s.%s' % (self.color.name, extension)
+
+    count = str(Tour.objects.count() + 1)
+    url = models.ImageField(upload_to='images/tours/' + count)
+
     description = models.CharField(max_length=100, help_text="Description for images")
 
 
