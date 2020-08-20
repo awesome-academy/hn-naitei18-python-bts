@@ -1,7 +1,9 @@
 from django.shortcuts import render
 import datetime
+
 from django.views import generic
 from .models import Tour
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -37,10 +39,17 @@ def login(request):
 
 class TourListView(generic.ListView):
     model = Tour
-    # def tour_image =
 
-class TourDetailView(generic.DetailView):
-    model = Tour
+
+def tour_detail(request, pk):
+    model = get_object_or_404(Tour, pk=pk)
+    suggest_tour = Tour.objects.all().order_by('?').exclude(pk=pk)[:3]
+
+    context = {
+        'tour': model,
+        'suggest_tour': suggest_tour,
+    }
+    return render(request, 'travel/tour_detail.html', context)
 
 
 class BookingHistory(generic.View):

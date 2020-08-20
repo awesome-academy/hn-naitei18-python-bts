@@ -120,7 +120,7 @@
 
                                 </div>
                                 <div class="place_info">
-                                    <a href="#"><h3>{{ tour.title }} </h3></a>
+                                    <a href="{{ tour.get_absolute_url}}"><h3>{{ tour.title }} </h3></a>
                                     <p>{{ tour.start_location }} - {{ tour.destination }}</p>
                                     <div class="rating_days d-flex justify-content-between">
                                         <span class="d-flex justify-content-center align-items-center">

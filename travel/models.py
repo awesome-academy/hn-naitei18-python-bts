@@ -26,7 +26,7 @@ class Tour(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular tour instance."""
-        return reverse('', args=[str(self.id)])
+        return reverse('tour-detail', args=[str(self.id)])
 
 
 class Image(models.Model):
