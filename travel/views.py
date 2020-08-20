@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import datetime
 from django.views import generic
+from .models import Tour
 
 
 # Create your views here.
@@ -13,7 +14,8 @@ def front_page(request):
     }
 
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'base_generic.html', context=context)
+    return render(request, 'front_page.html', context=context)
+
 
 def register(request):
     """View function for register site."""
@@ -23,6 +25,7 @@ def register(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'register.html', context=context)
 
+
 def login(request):
     """View function for register site."""
     context = {
@@ -31,12 +34,13 @@ def login(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'registration/login.html', context=context)
 
-class TourListView(generic.ListView):
-    pass
 
+class TourListView(generic.ListView):
+    model = Tour
+    # def tour_image =
 
 class TourDetailView(generic.DetailView):
-    pass
+    model = Tour
 
 
 class BookingHistory(generic.View):
