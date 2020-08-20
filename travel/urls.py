@@ -1,8 +1,11 @@
 from django.urls import path
 from . import views
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('home/', views.front_page, name='index'),
+    path('register/', views.register, name='register'),
+    path('login', views.login, name='login'),
     path('tours/', views.TourListView.as_view(), name='tour-list'),
     path('tour/<int:pk>', views.TourDetailView.as_view(), name='tour-detail'),
     path('user/<int:pk>/history', views.BookingHistory.as_view(), name='booking-history'),

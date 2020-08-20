@@ -15,6 +15,21 @@ def front_page(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'base_generic.html', context=context)
 
+def register(request):
+    """View function for register site."""
+    context = {
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'register.html', context=context)
+
+def login(request):
+    """View function for register site."""
+    context = {
+    }
+
+    # Render the HTML template index.html with the data in the context variable
+    return render(request, 'registration/login.html', context=context)
 
 class TourListView(generic.ListView):
     pass
