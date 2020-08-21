@@ -1,6 +1,237 @@
-{% extends base_generic %}
+{% extends "base_generic.html" %}
 
 {% block content %}
-     <h1>Title: {{ tour.title }}</h1>
 
+    <!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_4 ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>{{ tour.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post">
+                        <div class="feature-img">
+                            <img class="img-fluid" src="../../../media/{{ tour.image_set.get.url }}" alt="">
+                        </div>
+                        <div class="blog_details">
+                            <h2>{{ tour.title }}
+                            </h2>
+                            <ul class="blog-info-link mt-3 mb-4">
+                                <li><a href="#"><i class="fa fa-calendar"></i>{{ tour.start_location }}
+                                    - {{ tour.destination }} </a></li>
+                                <li><a href="#"><i class="fa fa-comments"></i>{{ tour.review_set.count }}</a></li>
+                            </ul>
+                            <a><i class="fa fa-home"> Notable place: {{ tour.place }} </i></a>
+                            <p class="excert">
+                            </p>
+                            <div class="quote-wrapper">
+                                <div class="quotes">
+                                    {{ tour.content }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navigation-top">
+                        <div class="d-sm-flex justify-content-between text-center">
+                            <p class="like-info">
+                                <span class="align-middle"><i class="fa fa-bookmark"></i></span>
+                                {% if tour.booking_set.count == 0 %}
+                                    Currently no booking tour. Booking now !
+                                {% elif tour.booking_set.count == 1 %}
+                                    Currently 1 booking tour. Join us !
+                                {% else %}
+                                    Currently {{ tour.booking_set.count }} booking tours. Choose your favorite time !
+                                {% endif %}
+                            </p>
+                            <div class="form-group">
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn" href="">Booking
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="comments-area">
+                        <h4>Review section</h4>
+                        {% if tour.review_set %}
+                            {% for review in tour.review_set.all %}
+                                <div class="comment-list">
+                                    <div class="single-comment justify-content-between d-flex">
+                                        <div class="user justify-content-between d-flex">
+                                            <div class="thumb">
+                                                <img src="../../static/img/comment/comment_1.png" alt="">
+                                            </div>
+                                            <div class="desc">
+
+                                                <div class="rating_days d-flex justify-content-between">
+                                                    <span class="d-flex justify-content-center align-items-center">
+                                                        <i class="fa fa-star"></i>
+                                                        <a class="border-right-0">{{ review.rating }} </a>
+                                                    </span>
+                                                </div>
+                                                <p class="comment">
+                                                    {{ review.content }}
+                                                </p>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <h5>
+                                                            <a href="#">{{ review.user }}</a>
+                                                        </h5>
+                                                        <p class="date">{{ review.create_date }}</p>
+                                                    </div>
+                                                    <div class="reply-btn">
+                                                        <a href="#" class="btn-reply text-uppercase">reply</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                    <div class="comment-form">
+                        <h4>Leave a Reply</h4>
+                        <form class="form-contact comment_form" action="#" id="commentForm">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                              <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="5"
+                                        placeholder="Write Comment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                               onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Search
+                                </button>
+                            </form>
+                        </aside>
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+                            <ul class="list cat-list">
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Resaurant food</p>
+                                        <p>(37)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel news</p>
+                                        <p>(10)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel abroad</p>
+                                        <p>(03)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>domestic tourism</p>
+                                        <p>(11)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li>
+                                    <a href="#">Ha Long</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ha Noi</a>
+                                </li>
+                                <li>
+                                    <a href="#">Nha Trang</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ho Chi Minh</a>
+                                </li>
+                                <li>
+                                    <a href="#">Phu Quoc</a>
+                                </li>
+                            </ul>
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ Blog Area end =================-->
+
+
+    <div class="popular_places_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section_title text-center mb_70">
+                        <h3>More places</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for sg_tour in suggest_tour %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single_place">
+                            <div class="thumb">
+                                <img src="../../../media/{{ sg_tour.image_set.get.url }}"/>
+                            </div>
+                            <div class="place_info">
+                                <a href="{{ sg_tour.get_absolute_url }}"><h3>{{ sg_tour.title }}</h3></a>
+                                <p>{{ sg_tour.start_location }} - {{ sg_tour.destination }}</p>
+                                <div class="rating_days d-flex justify-content-between">
+                                <span class="d-flex justify-content-center align-items-center">
+                                     <i class="fa fa-star"> {{ sg_tour.rating }}</i>
+                                     <a href="#">{{ sg_tour.review_set.count }} reviews</a>
+                                </span>
+                                    <div class="days">
+                                        <i class="fa fa-clock-o"></i>
+                                        <a href="#"> {{ sg_tour.date }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
