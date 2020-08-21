@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <img src="{% static 'img/jihyou1.jpeg' %}" name="aboutme" width="240" height="240" border="0" class="img-circle"></a>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <h4>
+                            Bhaumik Patel</h4>
+                        <small><cite title="San Francisco, USA">  San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                        </i></cite></small>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>  email@example.com
+                            <br />
+                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                            <br />
+                            <i class="glyphicon glyphicon-gift"></i>  June 02, 1988</p>
+                        <!-- Split button -->
+                        <div class="btn-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
