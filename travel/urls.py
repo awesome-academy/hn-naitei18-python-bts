@@ -12,6 +12,7 @@ urlpatterns = [
     path('tours/', views.TourListView.as_view(), name='tours'),
     path('tour/<int:pk>', views.tour_detail, name='tour-detail'),
     path('user/<int:pk>/history', views.BookingHistory.as_view(), name='booking-history'),
-    path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity')
+    path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity'),
+    path('tour/<int:pk>/booking',views.create_booking,name='booking'),
 ]
 

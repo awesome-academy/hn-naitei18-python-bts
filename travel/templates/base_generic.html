@@ -28,7 +28,10 @@
 	<link rel="stylesheet" href="{% static '/css/slicknav.css' %} ">
 	<link rel="stylesheet" href="{% static '/css/style.css' %} ">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
-
+	<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
 	<!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
@@ -109,8 +112,7 @@
 		</div>
 	</header>
 	<!-- header-end -->
-
-
+	{% include 'messages.html' %}
 	{% block content %} {% endblock %}
 
 
