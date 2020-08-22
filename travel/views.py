@@ -16,6 +16,9 @@ from django.urls import reverse
 from datetime import timedelta
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+import sys
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -30,11 +33,12 @@ def front_page(request):
     return render(request, 'front_page.html', context=context)
 
 
-def profile(request,pk):
+def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     """View function for register site."""
 
     return render(request, 'profile_details.html', {'user': user})
+
 
 @login_required
 @transaction.atomic
@@ -86,32 +90,33 @@ def login(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'registration/login.html', context=context)
 
-import sys
-from django.contrib import  messages
-def create_booking(request,pk):
+
+def create_booking(request, pk):
     tour = get_object_or_404(Tour, pk=pk)
     user = User.objects.get(username=str(request.user))
     if request.method == 'POST':
         start_date = request.POST['start_date']
         members = request.POST['members']
-        start_date = datetime.datetime.strptime(start_date,'%Y-%m-%d')
+        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
         members = int(members)
         price = members * tour.base_price
         return_date = start_date + timedelta(days=tour.date)
-        booking = Booking(user = user, tour = tour, start_date = start_date, return_date = return_date, price = price, members = members)
+        booking = Booking(user=user, tour=tour, start_date=start_date, return_date=return_date, price=price,
+                          members=members)
         try:
             booking.save()
         except:
-            messages.error(request,'Booking fail')
+            messages.error(request, 'Booking fail')
             return render(request, 'travel/create_booking.html', context=context)
         else:
             messages.success(request, 'Booking success!')
-            return HttpResponseRedirect(reverse('index') )
-    else :
+            return HttpResponseRedirect(reverse('index'))
+    else:
         context = {
             'tour': tour
         }
     return render(request, 'travel/create_booking.html', context=context)
+
 
 class TourListView(generic.ListView):
     model = Tour
@@ -139,10 +144,75 @@ def tour_review(request, pk):
         'suggest_tour': suggest_tour,
         'suggest_review': suggest_review,
         'comment_list': comment,
-        # 'comment_parent_list': comment_parent,
-        # 'comment_child_list': comment_child,
     }
     return render(request, 'travel/tour_review.html', context)
+
+
+def review_new(request, pk):
+    selected_tour = get_object_or_404(Tour, pk=pk)
+    tour_list = Tour.objects.all()
+    user = User.objects.get(username=str(request.user))
+    if request.method == 'POST':
+        tour = request.POST.get('tour-name')
+        tour = Tour.objects.get(id=tour)
+        title = request.POST.get('review-title', 'Default title')
+        content = request.POST.get('content', 'Default content')
+        rating = request.POST.get('rating', '5')
+        rating = int(rating)
+        picture = request.POST['review-image']
+        review = Review(user=user, tour=tour, title=title, content=content, rating=rating, picture=picture)
+        try:
+            review.save()
+        except:
+            context = {
+                'selected_tour': selected_tour,
+                'tour_list': tour_list,
+            }
+            messages.error(request, 'Booking fail')
+            return render(request, 'travel/review_new.html', context=context)
+        else:
+            messages.success(request, 'Booking success!')
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        context = {
+            'selected_tour': selected_tour,
+            'tour_list': tour_list,
+        }
+
+    return render(request, 'travel/review_new.html', context)
+
+
+def create_review(request):
+    user = User.objects.get(username=str(request.user))
+    tour_list = Tour.objects.all()
+    if request.method == 'POST':
+        tour = request.POST.get('tour-name')
+        tour = Tour.objects.get(id=tour)
+        title = request.POST.get('review-title', 'Default title')
+        content = request.POST.get('content', 'Default content')
+        rating = request.POST.get('rating', '5')
+        rating = int(rating)
+        picture = request.POST['review-image']
+        review = Review(user=user, tour=tour, title=title, content=content, rating=rating, picture=picture)
+        try:
+            review.save()
+        except:
+            context = {
+                'selected_tour': selected_tour,
+                'tour_list': tour_list,
+            }
+            messages.error(request, 'Booking fail')
+            return render(request, 'travel/review_new.html', context=context)
+        else:
+            messages.success(request, 'Booking success!')
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        context = {
+            'tour': 'New tour',
+            'tour_list': tour_list,
+        }
+
+    return render(request, 'travel/review_new.html', context)
 
 
 class BookingHistory(generic.View):
