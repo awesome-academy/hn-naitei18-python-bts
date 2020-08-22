@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Tour, Image, Booking, Review, Comment, Profile
 
 
-
 # Register your models here.
 
 
@@ -29,12 +28,14 @@ class CommentInline(admin.TabularInline):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('user', 'tour', 'rating')
+    list_display = ('id', 'user', 'tour', 'rating')
     inlines = [CommentInline]
+
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'address', 'phone')
+
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):

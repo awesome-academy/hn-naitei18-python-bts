@@ -3068,16 +3068,16 @@ h3 {
 
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_popular_place.scss */
 .popular_places_area {
-  padding-top: 142px;
-  padding-bottom: 150px;
+  padding-top: 40px;
+  padding-bottom: 50px;
   background: #F7FAFD;
 }
 
 @media (max-width: 767px) {
   /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_popular_place.scss */
   .popular_places_area {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 40px;
+    padding-bottom: 50px;
   }
 }
 
@@ -3443,8 +3443,8 @@ h3 {
 
 /* line 80, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_video.scss */
 .recent_trip_area {
-  padding-top: 150px;
-  padding-bottom: 120px;
+  padding-top: 0px;
+  padding-bottom: 20px;
 }
 
 /* line 83, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_video.scss */
