@@ -15,7 +15,7 @@
                                 {% csrf_token %}
 
                                 {% if form.errors  %}
-                                    {% for form in form %}
+                                    {% for field in form %}
                                         {% for error in field.errors %}
                                             <div class="form-alert text-center mb-2 w-100">
                                                 <strong>{{ error|escape }}</strong>

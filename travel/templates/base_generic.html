@@ -49,7 +49,7 @@
 							<div class="col-xl-2 col-lg-2">
 								<div class="logo">
 									<a href="{% url 'index' %}">
-										<img src="../static/img/logo.png" alt="">
+										<img src="{%static '/img/logo.png'%}" alt="">
 									</a>
 								</div>
 							</div>
@@ -93,7 +93,7 @@
 										Hello, {{ user.get_username }}
 									</a>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-										<a class="dropdown-item" href="#">Your profile</a>
+										<a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
 										<a class="dropdown-item"
 											href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 									</div>
@@ -300,6 +300,7 @@
 	<script src=" {% static '/js/jquery.form.js' %}"></script>
 	<script src=" {% static '/js/jquery.validate.min.js' %}"></script>
 	<script src=" {% static '/js/mail-script.js' %}"></script>
+	<script src=" {% static '/js/profile.js' %}"></script>
 
 
 	<script src=" {% static '/js/main.js' %}"></script>

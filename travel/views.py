@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 import datetime
+from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -8,10 +9,12 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignUpForm, ProfileForm, UserForm
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from datetime import timedelta  
+from datetime import timedelta
+from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -27,13 +30,33 @@ def front_page(request):
     return render(request, 'front_page.html', context=context)
 
 
-def profile(request):
+def profile(request,pk):
+    user = get_object_or_404(User, pk=pk)
     """View function for register site."""
-    context = {
-    }
 
-    # Render the HTML template index.html with the data in the context variable
-    return render(request, 'profile.html', context=context)
+    return render(request, 'profile_details.html', {'user': user})
+
+@login_required
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            if request.FILES.get('avatar', None) != None:
+                try:
+                    os.remove(request.user.profile.avatar.url)
+                except Exception as e:
+                    print('Exception in removing old profile image: ', e)
+                request.user.profile.avatar = request.FILES['avatar']
+                request.user.profile.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return HttpResponseRedirect(reverse('profile'))
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        form = ProfileForm(instance=request.user.profile)
+        return render(request, 'profile.html', {'form': form})
 
 def register(request):
     if request.method == "POST":
@@ -48,7 +71,10 @@ def register(request):
             #password = form.cleaned_data.get('password1')
             #user = authenticate(username=username, password=password)
             #login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            messages.success(request, _('Your accounts was successfully created! Login now!'))
+            return HttpResponseRedirect(reverse('login'))
+        else:
+            messages.error(request, _('Please correct the error below.'))
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})

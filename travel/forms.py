@@ -2,20 +2,21 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from travel.models import Profile
 from django.db import models
 
-class UserForm(UserCreationForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email')
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(UserChangeForm):
     class Meta:
         model = Profile
-        fields = ('address', 'phone')
+        fields = ('address', 'phone', 'avatar')
 
 class SignUpForm(UserCreationForm):
     address = forms.CharField(max_length = 200,required = True)
