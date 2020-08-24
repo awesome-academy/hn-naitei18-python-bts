@@ -1,16 +1,18 @@
 from django.shortcuts import render,redirect
 import datetime
-
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour
+from .models import Tour, Booking
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignUpForm, ProfileForm, UserForm
 from django.contrib.auth import authenticate
 from django.db import transaction
-
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
+from datetime import timedelta  
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -59,6 +61,32 @@ def login(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'registration/login.html', context=context)
 
+import sys
+from django.contrib import  messages
+def create_booking(request,pk):
+    tour = get_object_or_404(Tour, pk=pk)
+    user = User.objects.get(username=str(request.user))
+    if request.method == 'POST':
+        start_date = request.POST['start_date']
+        members = request.POST['members']
+        start_date = datetime.datetime.strptime(start_date,'%Y-%m-%d')
+        members = int(members)
+        price = members * tour.base_price
+        return_date = start_date + timedelta(days=tour.date)
+        booking = Booking(user = user, tour = tour, start_date = start_date, return_date = return_date, price = price, members = members)
+        try:
+            booking.save()
+        except:
+            messages.error(request,'Booking fail')
+            return render(request, 'travel/create_booking.html', context=context)
+        else:
+            messages.success(request, 'Booking success!')
+            return HttpResponseRedirect(reverse('index') )
+    else :
+        context = {
+            'tour': tour
+        }
+    return render(request, 'travel/create_booking.html', context=context)
 
 class TourListView(generic.ListView):
     model = Tour

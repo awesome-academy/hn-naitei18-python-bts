@@ -1,0 +1,125 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mb-5 mb-lg-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="slider_area">
+                            <div class="slider_active owl-carousel">
+                                {% if tour.image_set%}
+                                {% for image in tour.image_set.all %}
+                                <div class="single_slider d-flex align-items-center overlay">
+                                    <img src='../../../media/{{ image.url }}'
+                                        alt="">
+                                </div>
+                                {% endfor %}
+                                {% endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-top-border">
+                            <h3 class="mb-30">Tour description: </h3>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <blockquote class="generic-blockquote">
+                                        "{{tour.content}}"
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="booking-form">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>booking form: </h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="exampleInputEmail1">Start date</label>
+                                <input class="form-control input-start-date" type="date" id="example-date-input"
+                                    name='start_date' required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="exampleInputEmail1">Member</label>
+                                <input class="form-control input-members" type="number" placeholder="members"
+                                    id="example-number-input" name="members" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>booking detail: </h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>tour </td>
+                                            <td>{{tour}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Start Date </td>
+                                            <td class="start-date"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>End Date </td>
+                                            <td class="end-date"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Member </td>
+                                            <td class="members"></td>
+                                        </tr>
+                                        <tr style="color: rgb(230, 36, 36);">
+                                            <td>Price </td>
+                                            <td class="price">0$</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form-group" style="text-align: right;">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.input-start-date').change(() => {
+        let start_date = $('.input-start-date').val()
+        $('.start-date').html(start_date)
+        let end_date = new Date(start_date)
+        end_date.setDate(end_date.getDate() + parseInt('{{tour.date}}'))
+        var yyyy = end_date.getFullYear().toString()
+        var mm = (end_date.getMonth() + 1).toString()
+        var dd = end_date.getDate().toString()
+        $('.end-date').html(yyyy + '-' + (mm[1] ? mm : "0" + mm[0]) + '-' + (dd[1] ? dd : "0" + dd[0]))
+    })
+    $('.input-members').change(() => {
+        let members = parseInt($('.input-members').val())
+        $('.members').html(members)
+        $('.price').html(members * parseInt('{{tour.base_price}}') + "$")
+    })
+</script>
+{% endblock %}

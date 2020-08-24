@@ -33,6 +33,7 @@ class Tour(models.Model):
     date = models.IntegerField(default=1)
     content = models.TextField(max_length=1000, help_text="Enter Description ")
     place = models.CharField(max_length=200, help_text="places in tour", null=True, blank=True)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
     rating = models.FloatField()
 
     class Meta:

@@ -113,11 +113,12 @@
                         {% if tour_list %}
                             {% for tour in tour_list %}
                                 <div class="col-lg-6 col-md-6">
-                            <div class="single_place">
+                                <div class="single_place">
                                 <div class="thumb">
-                                    <img src="../../../media/{{ tour.image_set.get.url }}"/>
-                                    <a href="" class="prise" >$500</a>
-
+                                    {% with tour.image_set.all|first as image %}
+                                        <img src="../../../media/{{ image.url }}">      
+                                    {% endwith %}
+                                    <a href="" class="prise" >${{tour.base_price}}</a>
                                 </div>
                                 <div class="place_info">
                                     <a href="{{ tour.get_absolute_url}}"><h3>{{ tour.title }} </h3></a>

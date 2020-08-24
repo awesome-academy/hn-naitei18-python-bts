@@ -23,7 +23,9 @@
                 <div class="col-lg-8 posts-list">
                     <div class="single-post">
                         <div class="feature-img">
-                            <img class="img-fluid" src="../../../media/{{ tour.image_set.get.url }}" alt="">
+                            {% with tour.image_set.all|first as image %}
+                                <img class="img-fluid" src="../../../media/{{ image.url }}">      
+                            {% endwith %}
                         </div>
                         <div class="blog_details">
                             <h2>{{ tour.title }}
@@ -56,8 +58,10 @@
                                 {% endif %}
                             </p>
                             <div class="form-group">
-                                <button type="submit" class="button button-contactForm btn_1 boxed-btn" href="">Booking
-                                </button>
+                                <a href="{% url 'booking' tour.id %}">
+                                    <button type="submit" class="button button-contactForm btn_1 boxed-btn" href="">Booking
+                                    </button>
+                                </a>
                             </div>
                         </div>
 
@@ -212,7 +216,9 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="single_place">
                             <div class="thumb">
-                                <img src="../../../media/{{ sg_tour.image_set.get.url }}"/>
+                                {% with sg_tour.image_set.all|first as image %}
+                                    <img src="../../../media/{{ image.url }}">      
+                                {% endwith %}
                             </div>
                             <div class="place_info">
                                 <a href="{{ sg_tour.get_absolute_url }}"><h3>{{ sg_tour.title }}</h3></a>
