@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from PIL import Image
 
 
 # Create your models here.
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='images/avatar', null=True, blank=True)
+    avatar = models.ImageField(upload_to='media/images/avatar', blank= True)
     address = models.CharField(max_length = 200, blank=True)
     phone = models.CharField(max_length = 10, null=True, blank=True)
 
