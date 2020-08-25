@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 import datetime
 from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour, Booking
+from .models import Tour, Review, Booking
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignUpForm, ProfileForm, UserForm
@@ -58,6 +58,7 @@ def update_profile(request):
         form = ProfileForm(instance=request.user.profile)
         return render(request, 'profile.html', {'form': form})
 
+
 def register(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -67,17 +68,15 @@ def register(request):
             user.profile.phone = form.cleaned_data.get('phone')
             user.profile.address = form.cleaned_data.get('address')
             user.save()
-            #username = form.cleaned_data.get('username')
-            #password = form.cleaned_data.get('password1')
-            #user = authenticate(username=username, password=password)
-            #login(request, user)
-            messages.success(request, _('Your accounts was successfully created! Login now!'))
-            return HttpResponseRedirect(reverse('login'))
-        else:
-            messages.error(request, _('Please correct the error below.'))
+            # username = form.cleaned_data.get('username')
+            # password = form.cleaned_data.get('password1')
+            # user = authenticate(username=username, password=password)
+            # login(request, user)
+            return HttpResponseRedirect(reverse('index'))
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
+
 
 def login(request):
     """View function for register site."""
@@ -120,13 +119,30 @@ class TourListView(generic.ListView):
 
 def tour_detail(request, pk):
     model = get_object_or_404(Tour, pk=pk)
-    suggest_tour = Tour.objects.all().order_by('?').exclude(pk=pk)[:3]
-
+    suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
+    suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('?')[:3]
     context = {
         'tour': model,
         'suggest_tour': suggest_tour,
+        'suggest_review': suggest_review,
     }
     return render(request, 'travel/tour_detail.html', context)
+
+
+def tour_review(request, pk):
+    model = get_object_or_404(Review, pk=pk)
+    suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
+    suggest_review = model.tour.review_set.all().exclude(pk=pk)[:2]
+    comment = Review.objects.get(pk=pk).comment_set.all().order_by('create_date')
+    context = {
+        'review': model,
+        'suggest_tour': suggest_tour,
+        'suggest_review': suggest_review,
+        'comment_list': comment,
+        # 'comment_parent_list': comment_parent,
+        # 'comment_child_list': comment_child,
+    }
+    return render(request, 'travel/tour_review.html', context)
 
 
 class BookingHistory(generic.View):
@@ -135,4 +151,3 @@ class BookingHistory(generic.View):
 
 class UserActivity(generic.View):
     pass
-

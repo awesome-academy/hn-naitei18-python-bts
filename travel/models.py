@@ -7,23 +7,25 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image
 
-
 # Create your models here.
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='media/images/avatar', blank= True)
-    address = models.CharField(max_length = 200, blank=True)
-    phone = models.CharField(max_length = 10, null=True, blank=True)
+    avatar = models.ImageField(upload_to='images/avatar', null=True, blank=True)
+    address = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=10, null=True, blank=True)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 class Tour(models.Model):
     """Mode representing a tour."""
@@ -51,11 +53,6 @@ class Tour(models.Model):
 class Image(models.Model):
     """Model representing Image"""
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
-
-    def upload_location(self, filename):
-        filebase, extension = filename.split('.')
-        return 'images/%s.%s' % (self.color.name, extension)
-
     count = str(Tour.objects.count() + 1)
     url = models.ImageField(upload_to='images/tours/' + count)
     description = models.CharField(max_length=100, help_text="Description for images")
@@ -96,6 +93,7 @@ class Review(models.Model):
     """Model representing reviews"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    title = models.TextField(max_length=100, help_text='One word about your trip !',)
     content = models.TextField(max_length=1000, help_text="Enter your feeling", null=True, blank=True)
     rating = models.IntegerField(help_text=" Enter 1 - 5")
     picture = models.ImageField(upload_to='images/reviews', null=True, blank=True)
@@ -106,7 +104,7 @@ class Review(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular review instance."""
-        return reverse('', args=[str(self.id)])
+        return reverse('tour-review', args=[str(self.id)])
 
 
 class Comment(models.Model):
@@ -122,7 +120,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.user)
+        return str(self.id)
 
     def get_absolute_url(self):
         """Returns the url to access a particular comment instance."""
