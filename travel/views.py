@@ -18,6 +18,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 import sys
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -122,6 +123,20 @@ class TourListView(generic.ListView):
     model = Tour
 
 
+def review_list(request):
+    list = Review.objects.all().order_by('-create_date')
+    suggest_tour = Tour.objects.all()[:3]
+    paginator = Paginator(list, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'review_list': list,
+        'suggest_tour': suggest_tour,
+        'page_obj': page_obj,
+    }
+    return render(request, 'travel/review_list.html', context)
+
+
 def tour_detail(request, pk):
     model = get_object_or_404(Tour, pk=pk)
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
@@ -192,13 +207,14 @@ def create_review(request):
         content = request.POST.get('content', 'Default content')
         rating = request.POST.get('rating', '5')
         rating = int(rating)
-        picture = request.POST['review-image']
+        if request.FILES.get('review-image', None) is not None:
+            picture = request.FILES['review-image']
+
         review = Review(user=user, tour=tour, title=title, content=content, rating=rating, picture=picture)
         try:
             review.save()
         except:
             context = {
-                'selected_tour': selected_tour,
                 'tour_list': tour_list,
             }
             messages.error(request, 'Booking fail')
