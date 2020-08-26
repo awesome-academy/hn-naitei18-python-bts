@@ -1,0 +1,119 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+    {% if selected_tour %}
+        <!-- bradcam_area  -->
+        <div class="bradcam_area "
+             style="background-image: url(../../../media/{{ selected_tour.image_set.first.url }})">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="bradcam_text text-center">
+                            <h3>{{ selected_tour.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ bradcam_area  -->
+    {% endif %}
+    <div class="booking-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <div class="select" style="width: auto; ">
+                                                    <select name="tour-name">
+                                                        {% for tour in tour_list %}
+                                                            {% if tour.id == selected_tour.id %}
+                                                                <option value="{{ tour.id }}"
+                                                                        selected>{{ tour.title }}</option>
+                                                            {% else %}
+                                                                <option value="{{ tour.id }}">{{ tour.title }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <div class="d-inline-block">
+                                                    <a>Rating</a>
+                                                    <div class="select" style="width: auto; ">
+                                                        <select name="rating">
+                                                            <option value="1" name="rating">1</option>
+                                                            <option value="2" name="rating">2</option>
+                                                            <option value="3" name="rating">3</option>
+                                                            <option value="4" name="rating">4</option>
+                                                            <option value="5" name="rating" selected>5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content ml-1" id="myTabContent">
+                                            <div class="tab-pane fade show active">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <input class="form-control input-review-title"
+                                                                   name="review-title"
+                                                                   type="text"
+                                                                   required
+                                                                   placeholder="タイトル">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="middle">
+                                                            <img src="" id="imgProfile" name="review-image"
+                                                                 class="img-circle img-thumbnail"
+                                                                 style="width: 250px; height: 250px; object-fit: contain"
+                                                                 alt="Give us a shot about your trip">
+                                                            <input type="button" class="btn btn-secondary"
+                                                                   id="btnChangePicture"
+                                                                   value="Upload image"/>
+                                                            <input type="file" style="display: none; "
+                                                                   id="profilePicture"
+                                                                   name="review-image"/>
+                                                            <br/>
+                                                            <br/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                    <textarea class="form-control w-100" name="content" id="content"
+                                                              cols="30" rows="9" required
+                                                              placeholder="ご自由に書いてください。"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 left-padding justify-content-between form-group">
+                        <a href="">
+                            <button type="submit" class="button button-contactForm btn_1 boxed-btn" >Booking
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+
+    </script>
+{% endblock %}
