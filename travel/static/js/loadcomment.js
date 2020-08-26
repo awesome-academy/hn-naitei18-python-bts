@@ -2,25 +2,30 @@
 	Load more content with jQuery - May 21, 2013
 	(c) 2013 @ElmahdiMahmoud
 */
- // $('.test1').css('display','inline');
+// $('.test1').css('display','inline');
 
 $(function () {
-    $('.test1').slice(0, 2).show();
-    $("#loadMore").on('click', function (e) {
+    $('.hidden-comment').slice(0, 2).show();
+    $("#loadMore a").on('click', function (e) {
         e.preventDefault();
-        $('.test1:hidden').slice(0, 1).slideDown();
-        if ($('.test1:hidden').length == 0) {
+        $('.hidden-comment:hidden').slice(0, 2).slideDown();
+        if ($('.hidden-comment:hidden').length == 0) {
             $("#load").fadeOut('slow');
         }
     });
 });
 
-$('.reply-btn').on('click',function (e) {
-    $('.reply-comment:hidden').show();
+
+
+$(document).ready(function () {
+    $('.reply-btn').on('click', function (e) {
+        var name = e.target.id
+        $('.reply-comment:hidden').show();
+    });
 });
 
 var cw = $('.ava').width();
-$('.ava').css({'height':cw+'px'});
+$('.ava').css({ 'height': cw + 'px' });
 
 $('a[href=#top]').click(function () {
     $('body,html').animate({
