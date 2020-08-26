@@ -16,6 +16,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=10, null=True, blank=True)
 
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -144,3 +145,14 @@ class Activity(object):
     def get_absolute_url(self):
         """Returns the url to access a particular tour instance."""
         return reverse('', args=[str(self.id)])
+
+class Follower(models.Model):
+    follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')
+    following = models.ForeignKey(User,on_delete=models.CASCADE, related_name='followers')
+    date_added = models.DateTimeField(default=datetime.now)
+
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __unicode__(self):
+        return u'%s follows %s' % (self.follower, self.following)

@@ -50,7 +50,7 @@
 							<div class="col-xl-2 col-lg-2">
 								<div class="logo">
 									<a href="{% url 'index' %}">
-										<img src="" alt="">
+										<img src="{% static '/img/logo.png' %}" alt="">
 									</a>
 								</div>
 							</div>
@@ -91,7 +91,7 @@
 								<div class="dropdown show">
 									<a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
 										aria-haspopup="true" aria-expanded="false">
-										Hello, {{ user.get_username }}
+										Hello, {{ request.user.get_username }}
 									</a>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 										<a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
