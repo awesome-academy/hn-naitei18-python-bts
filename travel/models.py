@@ -17,6 +17,10 @@ class Profile(models.Model):
     address = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=10, null=True, blank=True)
 
+    def get_absolute_url(self):
+        """Returns the url to access a particular tour instance."""
+        return '/profile/%s' % self.id
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -59,14 +63,16 @@ class Image(models.Model):
     url = models.ImageField(upload_to='images/tours/' + count)
     description = models.CharField(max_length=100, help_text="Description for images")
 
+
 class Voting(models.Model):
     """Model representing Image"""
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    star = models.PositiveIntegerField(default=0,validators=[MaxValueValidator(5)], null=False, blank = False)
+    star = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(5)], null=False, blank=False)
 
     class Meta:
         unique_together = ('tour', 'user')
+
 
 class Booking(models.Model):
     """Model representing booking."""
@@ -96,7 +102,7 @@ class Booking(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular tour instance."""
-        return reverse('', args=[str(self.id)])
+        return '/booking/%s/detail' % self.id
 
 
 class Review(models.Model):
@@ -137,7 +143,7 @@ class Comment(models.Model):
         return reverse('', args=[str(self.id)])
 
 
-class Activity(object):
+class Activity(models.Model):
     """docstring for Activity"""
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     acti = models.CharField(max_length=200, help_text="name of activity")

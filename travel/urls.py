@@ -7,7 +7,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('', RedirectView.as_view(url='home/', permanent=True)),
     path('home/', views.front_page, name='index'),
-    #path('register/', views.register, name='register'),
+    # path('register/', views.register, name='register'),
     path('editprofile/', views.update_profile, name='profile'),
     path('profile/<int:pk>', views.profile, name='profile-details'),
     path('profile/<int:pk>/$', views.follow, name='follow'),
@@ -21,13 +21,12 @@ urlpatterns = [
     path('review/<int:pk>/new', views.review_new, name='review-new'),
     path('review/new', views.create_review, name='create-review', ),
     path('user/history', views.booking_history, name='booking-history'),
-    path('booking/<int:pk>/detail',views.booking_detail,name='booking_detail'),
-    path('booking/<int:pk>/delete',views.booking_delete,name='booking_delete'),
+    path('booking/<int:pk>/detail', views.booking_detail, name='booking_detail'),
+    path('booking/<int:pk>/delete', views.booking_delete, name='booking_delete'),
     path('user/bookinglist', views.booking_history, name='booking-history'),
-
-    path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity'),
     url(r'^register/$', views.signup, name='register'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('logout/', views.front_page, name='logout'),
-    path('tour/<int:pk>/voting',views.create_voting, name='voting')
+    path('tour/<int:pk>/voting', views.create_voting, name='voting'),
+    path('user/activity', views.user_activity, name='user-activity'),
 ]

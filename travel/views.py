@@ -4,7 +4,7 @@ from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour, Review, Booking, Follower,Profile,Voting
+from .models import Tour, Review, Booking, Follower, Profile, Voting, Activity
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignupForm, ProfileForm, UserForm
@@ -27,7 +27,9 @@ from django.core.paginator import Paginator
 def front_page(request):
     """View function for home page of site."""
     # date = datetime.time
+    all_tour = Tour.objects.all()
     context = {
+        'tour_list': all_tour,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -41,12 +43,14 @@ def follow(request, pk):
     if (Follower.objects.filter(follower=request.user, following=tuser)):
         Follower.objects.filter(follower=request.user, following=tuser).delete()
         is_followed = 0
+        activity = Activity(user=request.user, acti="now unfollow user" + tuser.username, url = tuser.profile.get_absolute_url())
     else:
         follow = Follower(follower=request.user, following=tuser)
         follow.save()
         is_followed = 1
+        activity = Activity(user=request.user, acti="now follow user" + tuser.username, url = tuser.profile.get_absolute_url())
     review_num = Review.objects.filter(user=tuser).count()
-
+    activity.save()
     return render(request, 'profile_details.html',
                   {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
 
@@ -105,6 +109,7 @@ env = environ.Env()
 # reading .env file
 environ.Env.read_env()
 
+
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -119,19 +124,20 @@ def signup(request):
             message = render_to_string('acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email]
             )
-            email.content_subtype ="html"
+            email.content_subtype = "html"
             email.send()
             return HttpResponse('Please confirm your email address to complete the registration')
     else:
         form = SignupForm()
     return render(request, 'register.html', {'form': form})
+
 
 def activate(request, uidb64, token):
     try:
@@ -157,6 +163,7 @@ def login(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'registration/login.html', context=context)
 
+
 @login_required
 def create_booking(request, pk):
     tour = get_object_or_404(Tour, pk=pk)
@@ -179,11 +186,13 @@ def create_booking(request, pk):
             messages.success(request, 'Booking success!')
             mess = '{0} is send a booking request to admin'.format(request.user)
             send_mail(
-                subject= 'Request booking',
+                subject='Request booking',
                 message='{0} request booking with tour {1}'.format(request.user, tour),
-                from_email = env('EMAIL_HOST_USER'),
-                recipient_list = [env('EMAIL_ADMIN'), ],
-                )
+                from_email=env('EMAIL_HOST_USER'),
+                recipient_list=[env('EMAIL_ADMIN'), ],
+            )
+            activity = Activity(user=user, acti="booking a tour " + tour.title, url=booking.get_absolute_url())
+            activity.save()
             return HttpResponseRedirect(reverse('index'))
     else:
         context = {
@@ -191,19 +200,22 @@ def create_booking(request, pk):
         }
     return render(request, 'travel/create_booking.html', context=context)
 
+
 from django.db.models import Avg
-def create_voting(request,pk): 
+
+
+def create_voting(request, pk):
     tour = get_object_or_404(Tour, pk=pk)
     user = User.objects.get(username=str(request.user))
     if request.method == 'POST':
         rate = int(request.POST.getlist('voting')[0])
-        try :
+        try:
             vote = tour.voting_set.get(user=user)
-        except: 
-            vote = Voting(tour=tour,user=user,star=rate)
-        else: 
+        except:
+            vote = Voting(tour=tour, user=user, star=rate)
+        else:
             vote.star = rate
-        
+
         try:
             vote.save()
         except:
@@ -215,37 +227,69 @@ def create_voting(request,pk):
         return HttpResponseRedirect(reverse('tour-detail', kwargs={'pk': tour.id}))
 
 
-
-
 def booking_detail(request, pk):
-    booking = get_object_or_404(Booking,pk = pk)
+    booking = get_object_or_404(Booking, pk=pk)
     context = {
-        'booking' : booking
+        'booking': booking
     }
-    return render(request,'travel/booking_detail.html', context=context)
+    return render(request, 'travel/booking_detail.html', context=context)
+
 
 @login_required
 def booking_history(request):
     user = User.objects.get(username=str(request.user))
     booking_list = user.booking_set.all()
     context = {
-        'booking_list' : booking_list
+        'booking_list': booking_list
     }
-    return render(request,'travel/booking_history.html',context=context)
+    return render(request, 'travel/booking_history.html', context=context)
+
 
 def booking_delete(request, pk):
-    booking = get_object_or_404(Booking, pk = pk)
+    booking = get_object_or_404(Booking, pk=pk)
     try:
         booking.delete()
     except:
         messages.error(request, 'Delete booking fail')
-        return render(request, reverse('booking_detail', kwargs={'pk': booking.id}),context={'booking' : booking})
-    else :
+        return render(request, reverse('booking_detail', kwargs={'pk': booking.id}), context={'booking': booking})
+    else:
         messages.success(request, 'Delete booking success')
         return HttpResponseRedirect(reverse('booking-history'))
 
+
 class TourListView(generic.ListView):
     model = Tour
+
+    def get_queryset(self):
+        place_query = self.request.GET.get('place')
+        date_query = self.request.GET.get('duration')
+        cost_query = self.request.GET.get('cost')
+        list = Tour.objects.all()
+        if place_query is not None:
+            if place_query is "":
+                pass
+            else:
+                list = Tour.objects.filter(title__icontains=place_query)
+        if date_query is not None:
+            if date_query is 'Duration':
+                pass
+            elif date_query.isnumeric():
+                date_query = int(date_query)
+                if date_query is 0:
+                    pass
+                else:
+                    list = list.filter(date=date_query)
+        if cost_query is not None:
+            if cost_query is 'Cost':
+                pass
+            elif cost_query.isnumeric():
+                cost_query = int(cost_query)
+                if cost_query is 0:
+                    pass
+                else:
+                    list = list.filter(base_price__in=range(cost_query))
+        return list
+
     def get_queryset(self):
         place_query = self.request.GET.get('place')
         date_query = self.request.GET.get('duration')
@@ -296,9 +340,9 @@ def tour_detail(request, pk):
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
     suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('?')[:3]
     user = User.objects.get(username=str(request.user))
-    try :
+    try:
         voting = model.voting_set.get(user=user)
-    except :
+    except:
         voting = None
     context = {
         'tour': model,
@@ -322,6 +366,7 @@ def tour_review(request, pk):
     }
     return render(request, 'travel/tour_review.html', context)
 
+
 @login_required
 def review_new(request, pk):
     selected_tour = get_object_or_404(Tour, pk=pk)
@@ -334,8 +379,10 @@ def review_new(request, pk):
         content = request.POST.get('content', 'Default content')
         rating = request.POST.get('rating', '5')
         rating = int(rating)
-        picture = request.POST['review-image']
+        if request.FILES.get('review-image', None) is not None:
+            picture = request.FILES['review-image']
         review = Review(user=user, tour=tour, title=title, content=content, rating=rating, picture=picture)
+
         try:
             review.save()
         except:
@@ -347,6 +394,8 @@ def review_new(request, pk):
             return render(request, 'travel/review_new.html', context=context)
         else:
             messages.success(request, 'Booking success!')
+            activity = Activity(user=user, acti="create a review for tour " + tour.title, url=review.get_absolute_url())
+            activity.save()
             return HttpResponseRedirect(reverse('index'))
     else:
         context = {
@@ -355,6 +404,7 @@ def review_new(request, pk):
         }
 
     return render(request, 'travel/review_new.html', context)
+
 
 @login_required
 def create_review(request):
@@ -369,8 +419,8 @@ def create_review(request):
         rating = int(rating)
         if request.FILES.get('review-image', None) is not None:
             picture = request.FILES['review-image']
-
         review = Review(user=user, tour=tour, title=title, content=content, rating=rating, picture=picture)
+
         try:
             review.save()
         except:
@@ -381,7 +431,8 @@ def create_review(request):
             return render(request, 'travel/review_new.html', context=context)
         else:
             messages.success(request, 'Booking success!')
-
+            activity = Activity(user=user, acti="create a review for tour " + tour.title, url=review.get_absolute_url())
+            activity.save()
             return HttpResponseRedirect(reverse('index'))
     else:
         context = {
@@ -392,7 +443,24 @@ def create_review(request):
     return render(request, 'travel/review_new.html', context)
 
 
+@login_required
+def user_activity(request):
+    user = User.objects.get(username=str(request.user))
+    self_activities = user.activity_set.all()
+    following_list1 = user.following.all().exclude(following__username=user.username)
+
+    # following_list = Activity.objects.filter(user_id__in=)
+    actilist = []
+    for a in following_list1:
+        name = a.following.activity_set.all()
+        for abc in name:
+            actilist.append(abc)
 
 
-class UserActivity(generic.View):
-    pass
+    context = {
+        'user': user,
+        'self_activities': self_activities,
+        'following_activities': actilist,
+        'fl_ac_count': actilist.__len__(),
+    }
+    return render(request, 'travel/user_activity.html', context)

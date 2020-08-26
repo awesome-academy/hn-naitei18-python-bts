@@ -29,6 +29,7 @@
 	<link rel="stylesheet" href="{% static '/css/comment.css' %} ">
 	<link rel="stylesheet" href="{% static '/css/booking_detail.css' %} ">
 	<link rel="stylesheet" href="{% static '/css/voting.css' %} ">
+  <link rel="stylesheet" href="{% static 'css/activitylog.css' %}">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script
   src="https://code.jquery.com/jquery-3.5.1.js"
@@ -68,7 +69,6 @@
 													<li><a href="{% url 'create-review' %}">New review</a></li>
 												</ul>
 											</li>
-											<li><a href="../static/contact.html">Contact</a></li>
 										</ul>
 									</nav>
 								</div>
@@ -96,9 +96,9 @@
 									</a>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 										<a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
-										<a class="dropdown-item" href="{% url 'booking-history' %}">Your Booked</a>
-										<a class="dropdown-item"
-											href="{% url 'logout'%}">Logout</a>
+										<a class="dropdown-item" href="{% url 'booking-history' %}">Your tour</a>
+                                        <a class="dropdown-item" href="{% url 'user-activity' %}">Activity log</a>
+                                        <a class="dropdown-item" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 									</div>
 								</div>
 								{% else %}
@@ -197,43 +197,7 @@
 						</div>
 					</div>
 					<div class="col-xl-3 col-md-6 col-lg-3">
-						<div class="footer_widget">
-							<h3 class="footer_title">
-								Instagram
-							</h3>
-							<div class="instagram_feed">
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/1.png" alt="">
-									</a>
-								</div>
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/2.png" alt="">
-									</a>
-								</div>
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/3.png" alt="">
-									</a>
-								</div>
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/4.png" alt="">
-									</a>
-								</div>
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/5.png" alt="">
-									</a>
-								</div>
-								<div class="single_insta">
-									<a href="#">
-										<img src="../../travel/static/img/instagram/6.png" alt="">
-									</a>
-								</div>
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>
@@ -297,6 +261,7 @@
 	<script src=" {% static '/js/gijgo.min.js' %}"></script>
 	<script src=" {% static '/js/slick.min.js' %}"></script>
     <script src=" {% static '/js/loadcomment.js' %}"></script>
+    <script src=" {% static '/js/activitylog.js'%}"></script>
 
 	<!--contact js-->
 	<script src=" {% static '/js/contact.js' %}"></script>

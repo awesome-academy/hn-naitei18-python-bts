@@ -1,0 +1,150 @@
+
+.container-table100 {
+    width: 100%;
+    /*min-height: 100vh;*/
+    /*background: #c4d3f6;*/
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 33px 30px;
+}
+
+.wrap-table100 {
+    width: 960px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.title-log {
+    width: 100%;
+    min-height: 40px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.title-log .h3 {
+    font-size: 40px;
+}
+
+.table {
+    width: 100%;
+    display: table;
+    margin: 0;
+    /*background-color: #c7e3fd;*/
+    border: 1px solid #ccc;
+}
+
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.row.header {
+    color: #ffffff;
+    background: #6c7ae0;
+}
+
+.row .cell {
+    font-family: Poppins-Regular;
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.2;
+    font-weight: unset !important;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.row.header .cell {
+    font-family: Poppins-Regular;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset !important;
+
+    padding-top: 19px;
+    padding-bottom: 19px;
+}
+
+.row .cell:nth-child(1) {
+    width: 360px;
+    padding-left: 40px;
+}
+
+.row .cell:nth-child(2) {
+    width: 620px;
+}
+
+/*testing for tab*/
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tab-content1 {
+    display: none;
+    /*padding: 6px 12px;*/
+    /*border: 1px solid #ccc;*/
+    /*border-top: none;*/
+}
+
+#loadMore1{
+    text-align: center;
+}
+#loadMore1 a{
+    display: inline-block;
+}
+
+.hidden-comment1{
+    display: none;
+}
+
+
+.hidden-comment2{
+    display: none;
+}
+
+
+#loadMore2{
+    text-align: center;
+}
+#loadMore2 a{
+    display: inline-block;
+}
