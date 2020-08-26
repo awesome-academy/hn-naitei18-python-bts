@@ -160,7 +160,7 @@ def tour_review(request, pk):
     model = get_object_or_404(Review, pk=pk)
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
     suggest_review = model.tour.review_set.all().exclude(pk=pk)[:2]
-    comment = Review.objects.get(pk=pk).comment_set.all().order_by('create_date')
+    comment = Review.objects.get(pk=pk).comment_set.all().order_by('-create_date')
     context = {
         'review': model,
         'suggest_tour': suggest_tour,

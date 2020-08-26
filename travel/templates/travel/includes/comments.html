@@ -1,0 +1,30 @@
+<div class="single-comment justify-content-between d-flex">
+    <div class="user justify-content-between d-flex">
+        <div class="thumb">
+            {% if comment.user.profile.avatar %}
+            <img src="{{ comment.user.profile.avatar.url }}" alt="" >
+            {% else %}
+            {% load static %}
+            <img src="{% static '/img/userde.JPG' %}"  alt="" >
+            {% endif %}
+        </div>
+        <div class="desc">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex align-items-center">
+                    <h5>
+                        <a href="#">{{ comment.user.username }}</a>
+                    </h5>
+                    <p class="date">{{ comment.create_date|date:"Y-m-d" }} </p>
+                </div>
+                <!-- <div class="reply-btn">
+                    <a href="#" id='{{comment.id}}' class="btn-reply text-uppercase">reply</a>
+                </div> -->
+            </div>
+            <p class="comment" style=" word-break: break-all">
+                {{ comment.content }}
+            </p>
+        </div>
+    </div>
+</div>
+
+
