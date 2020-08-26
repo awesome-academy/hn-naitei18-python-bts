@@ -14,12 +14,17 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('tours/', views.TourListView.as_view(), name='tours'),
     path('tour/<int:pk>', views.tour_detail, name='tour-detail'),
+    
     path('tour/<int:pk>/booking', views.create_booking, name='booking'),
     path('reviews', views.review_list, name='review-list'),
     path('review/<int:pk>', views.tour_review, name='tour-review'),
     path('review/<int:pk>/new', views.review_new, name='review-new'),
     path('review/new', views.create_review, name='create-review', ),
-    path('user/<int:pk>/history', views.BookingHistory.as_view(), name='booking-history'),
+    path('user/<int:pk>/history', views.booking_history, name='booking-history'),
+    path('booking/<int:pk>/detail',views.booking_detail,name='booking_detail'),
+    path('booking/<int:pk>/delete',views.booking_delete,name='booking_delete'),
+    path('user/bookinglist', views.booking_history, name='booking-history'),
+
     path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity'),
     url(r'^register/$', views.signup, name='register'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),

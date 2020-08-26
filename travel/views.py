@@ -150,7 +150,7 @@ def login(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'registration/login.html', context=context)
 
-
+@login_required
 def create_booking(request, pk):
     tour = get_object_or_404(Tour, pk=pk)
     user = User.objects.get(username=str(request.user))
@@ -170,7 +170,7 @@ def create_booking(request, pk):
             return render(request, 'travel/create_booking.html', context=context)
         else:
             messages.success(request, 'Booking success!')
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('booking_detail', kwargs={'pk': booking.id})) 
     else:
         context = {
             'tour': tour
@@ -178,9 +178,36 @@ def create_booking(request, pk):
     return render(request, 'travel/create_booking.html', context=context)
 
 
+
 class TourListView(generic.ListView):
     model = Tour
 
+def booking_detail(request, pk):
+    booking = get_object_or_404(Booking,pk = pk)
+    context = {
+        'booking' : booking
+    }
+    return render(request,'travel/booking_detail.html', context=context)
+
+@login_required
+def booking_history(request):
+    user = User.objects.get(username=str(request.user))
+    booking_list = user.booking_set.all()
+    context = {
+        'booking_list' : booking_list
+    }
+    return render(request,'travel/booking_history.html',context=context)
+
+def booking_delete(request, pk):
+    booking = get_object_or_404(Booking, pk = pk)
+    try: 
+        booking.delete()    
+    except:
+        messages.error(request, 'Delete booking fail')
+        return render(request, reverse('booking_detail', kwargs={'pk': booking.id}),context={'booking' : booking}) 
+    else :
+        messages.success(request, 'Delete booking success')
+        return HttpResponseRedirect(reverse('booking-history')) 
 
 def review_list(request):
     list = Review.objects.all().order_by('-create_date')
@@ -221,7 +248,7 @@ def tour_review(request, pk):
     }
     return render(request, 'travel/tour_review.html', context)
 
-
+@login_required
 def review_new(request, pk):
     selected_tour = get_object_or_404(Tour, pk=pk)
     tour_list = Tour.objects.all()
@@ -255,7 +282,7 @@ def review_new(request, pk):
 
     return render(request, 'travel/review_new.html', context)
 
-
+@login_required
 def create_review(request):
     user = User.objects.get(username=str(request.user))
     tour_list = Tour.objects.all()
@@ -290,8 +317,6 @@ def create_review(request):
     return render(request, 'travel/review_new.html', context)
 
 
-class BookingHistory(generic.View):
-    pass
 
 
 class UserActivity(generic.View):

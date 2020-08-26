@@ -1,0 +1,128 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container booking-detail" style="margin-top: 50px; margin-bottom: 100px;">
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body booking-content">
+                    <h4>Booking complete</h4>
+                    <div class="container" style="margin-bottom: 30px;">
+                        <p>Thank you for using our service</p>
+                    </div>
+                    <h4>Your information</h4>
+                    <div class="container">
+                        <table class="table" style="border: none;">
+                            <tr>
+                                <td>Your name </td>
+                                <td>{{user.username}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email </td>
+                                <td>{{user.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number</td>
+                                <td>{{user.profile.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>address</td>
+                                <td>
+                                    <address>{{user.profile.address}}</address>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <h4>Booking infor</h4>
+                    <div class="container">
+                        <table class="table" style="border: none;">
+                            <tr>
+                                <td>Tour </td>
+                                <td>{{booking.tour.title}}</td>
+                            </tr>
+                            <tr>
+                                <td>Start date </td>
+                                <td>{{booking.start_date}}</td>
+                            </tr>
+                            <tr>
+                                <td>Return date</td>
+                                <td>{{booking.return_date}}</td>
+                            </tr>
+                            <tr>
+                                <td>Member</td>
+                                <td>{{booking.members}}</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>{{booking.get_status_display}}</td>
+                            </tr>
+                            <tr>
+                                <td>Price</td>
+                                <td>{{booking.price}}$</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="container" style="text-align: right;">
+                            <button type="button" class="btn btn-success">Back</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#exampleModalCenter">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Need Help?</h4>
+                    <div class="container">
+                        <table class="table">
+                            <tr>
+                                <td>Phone</td>
+                                <td>+84396721309</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>hust.hedspi@gmail.com</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <h4>Are you sure ?</h4>
+                            </div>
+                            <div class="row">
+                                <div class="container" style="text-align: right;">
+                                    <a style="display: inline-block;" href="{% url 'booking_delete' booking.id %}">
+                                        <button type="button" class="btn btn-success">OK</button>
+                                    </a>
+                                    <a style="display: inline-block;">
+                                        <button type="button" class="btn btn-danger cancel-detele">Cancel</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.cancel-detele').on('click',()=>{
+        $('#exampleModalCenter').modal('hide') 
+    })
+</script>
+{% endblock %}
+
