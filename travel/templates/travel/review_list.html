@@ -1,0 +1,175 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    {% for review in page_obj %}
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="../../..{{ review.picture.url }}" alt="">
+                                <a href="#" class="blog_item_date">
+                                    <p>{{ review.create_date.date }}</p>
+                                </a>
+                            </div>
+
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{{ review.get_absolute_url }}">
+                                    <h2>{{ review.title }}</h2>
+                                </a>
+
+                                <ul class="">
+                                    <li class=><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                                    <li><p><i class="fa fa-comments"></i>
+                                        {% if review.comment_set.count < 2 %}
+                                            {{ review.comment_set.count }} comment
+                                        {% else %}
+                                            {{ review.comment_set.count }} comments
+                                        {% endif %}
+                                    </p></li>
+                                </ul>
+                            </div>
+                        </article>
+                        <hr/>
+                    {% endfor %}
+                    <div class="pagination d-flex justify-content-center">
+                        <span class="step-links ">
+                        {% if page_obj.has_previous %}
+                            <a class="d-inline-block" href="?page=1">&laquo; first</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a class="d-inline-block" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            &nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            &nbsp;&nbsp;&nbsp;
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a class="d-inline-block" href="?page={{ page_obj.next_page_number }}">next</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a class="d-inline-block" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar ">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                               onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Search
+                                </button>
+                            </form>
+                        </aside>
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+                            <ul class="list cat-list">
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Resaurant food</p>
+                                        <p>(37)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel news</p>
+                                        <p>(10)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel abroad</p>
+                                        <p>(03)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>domestic tourism</p>
+                                        <p>(11)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li>
+                                    <a href="#">Ha Long</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ha Noi</a>
+                                </li>
+                                <li>
+                                    <a href="#">Nha Trang</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ho Chi Minh</a>
+                                </li>
+                                <li>
+                                    <a href="#">Phu Quoc</a>
+                                </li>
+                            </ul>
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ Blog Area end =================-->
+
+
+    <div class="popular_places_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section_title text-center mb_70">
+                        <h3>More places</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for sg_tour in suggest_tour %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single_place">
+                            <div class="thumb">
+                                {% with sg_tour.image_set.all|first as image %}
+                                    <img src="../../../media/{{ image.url }}">
+                                {% endwith %}
+                            </div>
+                            <div class="place_info">
+                                <a href="{{ sg_tour.get_absolute_url }}"><h3>{{ sg_tour.title }}</h3></a>
+                                <p>{{ sg_tour.start_location }} - {{ sg_tour.destination }}</p>
+                                <div class="rating_days d-flex justify-content-between">
+                                <span class="d-flex justify-content-center align-items-center">
+                                     <i class="fa fa-star"> {{ sg_tour.rating }}</i>
+                                     <a href="#">{{ sg_tour.review_set.count }} reviews</a>
+                                </span>
+                                    <div class="days">
+                                        <i class="fa fa-clock-o"></i>
+                                        <a href="#"> {{ sg_tour.date }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
