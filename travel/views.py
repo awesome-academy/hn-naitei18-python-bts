@@ -4,7 +4,7 @@ from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour, Review, Booking
+from .models import Tour, Review, Booking, Follower
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignUpForm, ProfileForm, UserForm
@@ -32,17 +32,39 @@ def front_page(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'front_page.html', context=context)
 
+@login_required
+def follow(request,pk):
+    tuser = get_object_or_404(User, pk=pk)
+    is_followed = 0
+    if( Follower.objects.filter(follower = request.user, following = tuser) ):
+        Follower.objects.filter(follower = request.user, following = tuser).delete()
+        is_followed = 0
+    else:
+        follow = Follower(follower = request.user, following = tuser)
+        follow.save()
+        is_followed = 1
+    review_num = Review.objects.filter(user = tuser).count()
+
+    return render(request, 'profile_details.html', {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
+
+
+
 
 def profile(request, pk):
+    is_followed =0
     user = get_object_or_404(User, pk=pk)
-    """View function for register site."""
+    review_num = Review.objects.filter(user = user).count()
+    if( Follower.objects.filter(follower = request.user, following = user) ):
+        is_followed = 1
 
-    return render(request, 'profile_details.html', {'user': user})
+
+    return render(request, 'profile_details.html', {'user': user, 'is_followed' : is_followed, 'review_num': review_num})
 
 
 @login_required
 @transaction.atomic
 def update_profile(request):
+    review_num = Review.objects.filter(user = request.user).count()
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
@@ -60,7 +82,7 @@ def update_profile(request):
             messages.error(request, _('Please correct the error below.'))
     else:
         form = ProfileForm(instance=request.user.profile)
-        return render(request, 'profile.html', {'form': form})
+    return render(request, 'profile.html', {'form': form, 'review_num': review_num})
 
 
 def register(request):

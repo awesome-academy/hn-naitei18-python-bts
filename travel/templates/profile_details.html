@@ -25,18 +25,21 @@
                                     <div class="row overview" style="margin-top:30px">
                                         <div class="col-md-3 user-pad text-center">
                                             <h4>FOLLOWERS</h4>
-                                            <h5>2,784</h5>
+                                            <h5>{{user.followers.count}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
                                             <h4>FOLLOWING</h4>
-                                            <h5>456</h5>
+                                            <h5>{{user.following.count}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
                                             <h4>REVIEWS</h4>
-                                            <h5>456</h5>
+                                            <h5>{{review_num}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
-                                            <input type="button" style="background-color: #34b1eb;" class="btn btn-secondary" name ="follow" value="FOLLOW" />
+                                            <form action="{% url 'follow' user.id%}" method='GET'>
+                                                <button type="submit" id= "follow" style="background-color: #34b1eb;" class="btn btn-secondary" name ="follow" > {% if is_followed %} UNFOLLOW {% else %} FOLLOW {% endif %} </button>
+                                            </form>
+
                                         </div>
 
                                     </div>
