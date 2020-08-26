@@ -28,20 +28,28 @@
                         <h3>Where you want to go?</h3>
                     </div>
                 </div>
+
                 <div class="col-lg-9">
                     <div class="search_wrap">
-                        <form class="search_form" action="#">
+                        <form class="search_form" action="{% url 'tours' %}" method="get">
                             <div class="input_field">
-                                <input type="text" placeholder="Where to go?">
+                                <input name="place" type="text" placeholder="Place" value="">
                             </div>
                             <div class="input_field">
-                                <input id="datepicker" placeholder="Date">
+                                <select name="duration">
+                                    <option data-display="Duration" value="0" selected>Duration</option>
+                                    <option value="1" > 1</option>
+                                    <option value="2"> 2</option>
+                                    <option value="3"> 3</option>
+                                    <option value="4"> 4</option>
+                                </select>
                             </div>
                             <div class="input_field">
-                                <select>
-                                    <option data-display="Travel type">Travel type</option>
-                                    <option value="1">Some option</option>
-                                    <option value="2">Another option</option>
+                                <select name="cost">
+                                    <option data-display="Cost" value="0">Cost</option>
+                                    <option value="500"> <500$</option>
+                                    <option value="2000"> <2000$</option>
+                                    <option value="5000"> <2000$</option>
                                 </select>
                             </div>
                             <div class="search_btn">
@@ -59,84 +67,35 @@
     <div class="popular_places_area">
         <div class="container">
             <div class="row">
-                <!-- filter  -->
-                <div class="col-lg-4">
-                    <div class="filter_result_wrap">
-                        <h3>Filter Result</h3>
-                        <div class="filter_bordered">
-                            <div class="filter_inner">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="single_select">
-                                            <select>
-                                                <option data-display="Country">Country</option>
-                                                <option value="1">Africa</option>
-                                                <option value="2">canada</option>
-                                                <option value="4">USA</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="single_select">
-                                            <select>
-                                                <option data-display="Travel type">Travel type</option>
-                                                <option value="1">advance</option>
-                                                <option value="2">advance</option>
-                                                <option value="4">premium</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="range_slider_wrap">
-                                            <span class="range">Prise range</span>
-                                            <div id="slider-range"></div>
-                                            <p>
-                                                <input type="text" id="amount" readonly
-                                                       style="border:0; color:#7A838B; font-weight:400;">
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="reset_btn">
-                                <button class="boxed-btn4" type="submit">Reset</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end filter -->
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
                         {% if tour_list %}
                             {% for tour in tour_list %}
-                                <div class="col-lg-6 col-md-6">
-                                <div class="single_place">
-                                <div class="thumb">
-                                    {% with tour.image_set.all|first as image %}
-                                        <img src="../../../media/{{ image.url }}">      
-                                    {% endwith %}
-                                    <a href="" class="prise" >${{tour.base_price}}</a>
-                                </div>
-                                <div class="place_info">
-                                    <a href="{{ tour.get_absolute_url}}"><h3>{{ tour.title }} </h3></a>
-                                    <p>{{ tour.start_location }} - {{ tour.destination }}</p>
-                                    <div class="rating_days d-flex justify-content-between">
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="single_place">
+                                        <div class="thumb">
+                                            {% with tour.image_set.all|first as image %}
+                                                <img src="../../../media/{{ image.url }}">
+                                            {% endwith %}
+                                            <a href="" class="prise">${{ tour.base_price }}</a>
+                                        </div>
+                                        <div class="place_info">
+                                            <a href="{{ tour.get_absolute_url }}"><h3>{{ tour.title }} </h3></a>
+                                            <p>{{ tour.start_location }} - {{ tour.destination }}</p>
+                                            <div class="rating_days d-flex justify-content-between">
                                         <span class="d-flex justify-content-center align-items-center">
                                              <i class="fa fa-star"></i>
                                             <a>{{ tour.rating }}</a>
                                              <a href="#">(20 Review)</a>
                                         </span>
-                                        <div class="days">
-                                            <i class="fa fa-clock-o"></i>
-                                            <a href="#">{{ tour.date }} days</a>
+                                                <div class="days">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <a href="#">{{ tour.date }} days</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
                             {% endfor %}
                         {% endif %}
                     </div>
