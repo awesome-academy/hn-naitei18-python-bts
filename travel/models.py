@@ -6,6 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image
+from django.core.validators import MaxValueValidator
 
 # Create your models here.
 
@@ -58,6 +59,14 @@ class Image(models.Model):
     url = models.ImageField(upload_to='images/tours/' + count)
     description = models.CharField(max_length=100, help_text="Description for images")
 
+class Voting(models.Model):
+    """Model representing Image"""
+    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    star = models.PositiveIntegerField(default=0,validators=[MaxValueValidator(5)], null=False, blank = False)
+
+    class Meta:
+        unique_together = ('tour', 'user')
 
 class Booking(models.Model):
     """Model representing booking."""

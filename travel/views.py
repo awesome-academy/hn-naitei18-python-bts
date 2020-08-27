@@ -4,7 +4,7 @@ from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour, Review, Booking, Follower,Profile
+from .models import Tour, Review, Booking, Follower,Profile,Voting
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignupForm, ProfileForm, UserForm
@@ -193,6 +193,28 @@ def create_booking(request, pk):
         }
     return render(request, 'travel/create_booking.html', context=context)
 
+from django.db.models import Avg
+def create_voting(request,pk): 
+    tour = get_object_or_404(Tour, pk=pk)
+    user = User.objects.get(username=str(request.user))
+    if request.method == 'POST':
+        rate = int(request.POST.getlist('voting')[0])
+        try :
+            vote = tour.voting_set.get(user=user)
+        except: 
+            vote = Voting(tour=tour,user=user,star=rate)
+        else: 
+            vote.star = rate
+        
+        try:
+            vote.save()
+        except:
+            messages.error(request, 'Voting fail')
+        else:
+            tour.rating = tour.voting_set.aggregate(Avg('star'))['star__avg']
+            tour.save()
+            messages.success(request, 'Voting success!')
+        return HttpResponseRedirect(reverse('tour-detail', kwargs={'pk': tour.id}))
 
 
 class TourListView(generic.ListView):
@@ -243,10 +265,16 @@ def tour_detail(request, pk):
     model = get_object_or_404(Tour, pk=pk)
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
     suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('?')[:3]
+    user = User.objects.get(username=str(request.user))
+    try :
+        voting = model.voting_set.get(user=user)
+    except :
+        voting = None
     context = {
         'tour': model,
         'suggest_tour': suggest_tour,
         'suggest_review': suggest_review,
+        'voting': voting,
     }
     return render(request, 'travel/tour_detail.html', context)
 
