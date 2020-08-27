@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 from . import views
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import RedirectView
@@ -6,7 +7,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('', RedirectView.as_view(url='home/', permanent=True)),
     path('home/', views.front_page, name='index'),
-    path('register/', views.register, name='register'),
+    #path('register/', views.register, name='register'),
     path('editprofile/', views.update_profile, name='profile'),
     path('profile/<int:pk>', views.profile, name='profile-details'),
     path('profile/<int:pk>/$', views.follow, name='follow'),
@@ -20,4 +21,6 @@ urlpatterns = [
     path('review/new', views.create_review, name='create-review', ),
     path('user/<int:pk>/history', views.BookingHistory.as_view(), name='booking-history'),
     path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity'),
+    url(r'^register/$', views.signup, name='register'),
+    path('activate/<uidb64>/<token>', views.activate, name='activate'),
 ]

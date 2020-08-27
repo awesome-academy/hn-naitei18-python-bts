@@ -18,9 +18,10 @@ class ProfileForm(UserChangeForm):
         model = Profile
         fields = ('address', 'phone', 'avatar')
 
-class SignUpForm(UserCreationForm):
+class SignupForm(UserCreationForm):
     address = forms.CharField(max_length = 200,required = True)
     phone = forms.CharField(max_length = 10 ,required = True)
+    email = forms.EmailField(max_length=200, help_text='Required')
     username = forms.CharField(max_length = 100, required = True)
     password1 = forms.CharField(
         label=_("Password"),

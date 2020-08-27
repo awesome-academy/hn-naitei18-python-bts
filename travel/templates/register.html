@@ -12,7 +12,7 @@
                         </div>
                         <div class="panel-body" >
                             <form method="post" action="{% url 'register' %}" id="signupform" class="form-horizontal" role="form">
-                                {% csrf_token %}
+                            {% csrf_token %}
 
                                 {% if form.errors  %}
                                     {% for field in form %}

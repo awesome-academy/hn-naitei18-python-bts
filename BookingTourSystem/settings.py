@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import environ
 import os
 from django.utils.translation import ugettext_lazy as _
 
@@ -18,7 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 's=5hk-7-i93vmx8!_b8bzx79)hvx7oa5nq6f42*m01v-*$9okb'
 
@@ -149,3 +151,8 @@ MESSAGE_TAGS = {
         messages.ERROR: 'alert-danger',
  }
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
