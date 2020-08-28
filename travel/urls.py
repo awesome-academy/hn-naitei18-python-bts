@@ -14,7 +14,7 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('tours/', views.TourListView.as_view(), name='tours'),
     path('tour/<int:pk>', views.tour_detail, name='tour-detail'),
-    
+
     path('tour/<int:pk>/booking', views.create_booking, name='booking'),
     path('reviews', views.review_list, name='review-list'),
     path('review/<int:pk>', views.tour_review, name='tour-review'),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('user/<int:pk>/activity', views.UserActivity.as_view(), name='activity'),
     url(r'^register/$', views.signup, name='register'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    path('logout/', views.front_page, name='logout'),
 ]

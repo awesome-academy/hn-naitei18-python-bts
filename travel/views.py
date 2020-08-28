@@ -90,6 +90,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
+from django.core.mail import send_mail
 from .forms import SignupForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
@@ -98,6 +99,14 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+
+import os
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -170,7 +179,14 @@ def create_booking(request, pk):
             return render(request, 'travel/create_booking.html', context=context)
         else:
             messages.success(request, 'Booking success!')
-            return HttpResponseRedirect(reverse('booking_detail', kwargs={'pk': booking.id})) 
+            mess = '{0} is send a booking request to admin'.format(request.user)
+            send_mail(
+                subject= 'Request booking',
+                message='{0} request booking with tour {1}'.format(request.user, tour),
+                from_email = env('EMAIL_HOST_USER'),
+                recipient_list = [env('EMAIL_ADMIN'), ],
+                )
+            return HttpResponseRedirect(reverse('index'))
     else:
         context = {
             'tour': tour
@@ -200,14 +216,14 @@ def booking_history(request):
 
 def booking_delete(request, pk):
     booking = get_object_or_404(Booking, pk = pk)
-    try: 
-        booking.delete()    
+    try:
+        booking.delete()
     except:
         messages.error(request, 'Delete booking fail')
-        return render(request, reverse('booking_detail', kwargs={'pk': booking.id}),context={'booking' : booking}) 
+        return render(request, reverse('booking_detail', kwargs={'pk': booking.id}),context={'booking' : booking})
     else :
         messages.success(request, 'Delete booking success')
-        return HttpResponseRedirect(reverse('booking-history')) 
+        return HttpResponseRedirect(reverse('booking-history'))
 
 def review_list(request):
     list = Review.objects.all().order_by('-create_date')
@@ -307,6 +323,7 @@ def create_review(request):
             return render(request, 'travel/review_new.html', context=context)
         else:
             messages.success(request, 'Booking success!')
+
             return HttpResponseRedirect(reverse('index'))
     else:
         context = {
