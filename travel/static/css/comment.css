@@ -10,7 +10,7 @@
 }
 
 .ava{
-
+    display: inline;
 }
 
 .totop a {
@@ -36,3 +36,5 @@ a:hover {
 .thumb image{
     width: 50px !important;
 }
+
+

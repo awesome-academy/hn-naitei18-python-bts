@@ -28,6 +28,7 @@
 	<link rel="stylesheet" href="{% static '/css/slicknav.css' %} ">
 	<link rel="stylesheet" href="{% static '/css/style.css' %} ">
 	<link rel="stylesheet" href="{% static '/css/comment.css' %} ">
+	<link rel="stylesheet" href="{% static '/css/booking_detail.css' %} ">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script
   src="https://code.jquery.com/jquery-3.5.1.js"
@@ -95,6 +96,7 @@
 									</a>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 										<a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
+										<a class="dropdown-item" href="{% url 'booking-history' %}">Your Booked</a>
 										<a class="dropdown-item"
 											href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 									</div>

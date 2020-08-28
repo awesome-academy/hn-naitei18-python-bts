@@ -233,7 +233,9 @@
             <div class="col-lg-4 col-md-6">
                 <div class="single_place">
                     <div class="thumb">
-                        <img src="../../../media/{{ sg_tour.image_set.get.url }}" />
+                        {% with sg_tour.image_set.all|first as image %}
+                            <img src="../../../media/{{ image.url }}">      
+                        {% endwith %}
                     </div>
                     <div class="place_info">
                         <a href="{{ sg_tour.get_absolute_url }}">

@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px; margin-bottom: 100px;">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Tour title</th>
+            <th scope="col">Start location</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Start date</th>
+            <th scope="col">Return date</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        {% for booking in booking_list %}
+        <tbody>
+          <tr>
+            <td scope="col">{{booking.tour.title}}</td>
+            <td scope="col">{{booking.tour.start_location}}</td>
+            <td scope="col">{{booking.tour.destination}}</td>
+            <td scope="col">{{booking.start_date}}</td>
+            <td scope="col">{{booking.return_date}}</td>
+            <td scope="col">{{booking.get_status_display}}</td>
+            <td scope="col"><a href="{% url 'booking_detail' booking.id %}" style="margin: 0px;">view detail</a></td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+</div>
+
+{% endblock %}
