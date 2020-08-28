@@ -33,39 +33,37 @@ def front_page(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'front_page.html', context=context)
 
+
 @login_required
-def follow(request,pk):
+def follow(request, pk):
     tuser = get_object_or_404(User, pk=pk)
     is_followed = 0
-    if( Follower.objects.filter(follower = request.user, following = tuser) ):
-        Follower.objects.filter(follower = request.user, following = tuser).delete()
+    if (Follower.objects.filter(follower=request.user, following=tuser)):
+        Follower.objects.filter(follower=request.user, following=tuser).delete()
         is_followed = 0
     else:
-        follow = Follower(follower = request.user, following = tuser)
+        follow = Follower(follower=request.user, following=tuser)
         follow.save()
         is_followed = 1
-    review_num = Review.objects.filter(user = tuser).count()
+    review_num = Review.objects.filter(user=tuser).count()
 
-    return render(request, 'profile_details.html', {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
-
-
+    return render(request, 'profile_details.html',
+                  {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
 
 
 def profile(request, pk):
-    is_followed =0
+    is_followed = 0
     user = get_object_or_404(User, pk=pk)
-    review_num = Review.objects.filter(user = user).count()
-    if( Follower.objects.filter(follower = request.user, following = user) ):
+    review_num = Review.objects.filter(user=user).count()
+    if Follower.objects.filter(follower=request.user, following=user):
         is_followed = 1
-
-
-    return render(request, 'profile_details.html', {'user': user, 'is_followed' : is_followed, 'review_num': review_num})
+    return render(request, 'profile_details.html', {'user': user, 'is_followed': is_followed, 'review_num': review_num})
 
 
 @login_required
 @transaction.atomic
 def update_profile(request):
-    review_num = Review.objects.filter(user = request.user).count()
+    review_num = Review.objects.filter(user=request.user).count()
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
@@ -195,8 +193,7 @@ def create_booking(request, pk):
 
 
 
-class TourListView(generic.ListView):
-    model = Tour
+
 
 def booking_detail(request, pk):
     booking = get_object_or_404(Booking,pk = pk)
@@ -224,6 +221,39 @@ def booking_delete(request, pk):
     else :
         messages.success(request, 'Delete booking success')
         return HttpResponseRedirect(reverse('booking-history'))
+
+class TourListView(generic.ListView):
+    model = Tour
+    def get_queryset(self):
+        place_query = self.request.GET.get('place')
+        date_query = self.request.GET.get('duration')
+        cost_query = self.request.GET.get('cost')
+        list = Tour.objects.all()
+        if place_query is not None:
+            if place_query is "":
+                pass
+            else:
+                list = Tour.objects.filter(title__icontains=place_query)
+        if date_query is not None:
+            if date_query is 'Duration':
+                pass
+            elif date_query.isnumeric():
+                date_query = int(date_query)
+                if date_query is 0:
+                    pass
+                else:
+                    list = list.filter(date=date_query)
+        if cost_query is not None:
+            if cost_query is 'Cost':
+                pass
+            elif cost_query.isnumeric():
+                cost_query = int(cost_query)
+                if cost_query is 0:
+                    pass
+                else:
+                    list = list.filter(base_price__in=range(cost_query))
+        return list
+
 
 def review_list(request):
     list = Review.objects.all().order_by('-create_date')
