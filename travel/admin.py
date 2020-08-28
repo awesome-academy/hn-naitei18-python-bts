@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tour, Image, Booking, Review, Comment, Profile, Follower
+from .models import Tour, Image, Booking, Review, Comment, Profile, Follower, Voting
 
 
 # Register your models here.
@@ -45,3 +45,7 @@ class Follower(admin.ModelAdmin):
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('user', 'tour', 'start_date', 'return_date', 'status')
+
+@admin.register(Voting)
+class VotingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'tour', 'star')

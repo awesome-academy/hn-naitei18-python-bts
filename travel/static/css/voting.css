@@ -1,0 +1,9 @@
+.checked {
+  color: orange;
+}
+
+.voting-star{
+  display: inline-block;
+  height: 50px;
+}
+
