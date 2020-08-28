@@ -1,0 +1,201 @@
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+{% load static %}
+<header>
+    <div class="header-area ">
+        <div id="sticky-header" class="main-header-area">
+            <div class="container-fluid">
+                <div class="header_bottom_border">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo">
+                                <a href="{% url 'index' %}">
+                                    <img src="{% static '/img/logo.png' %}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-5">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="{% url 'index' %}">Home</a></li>
+                                        <li><a href="{% url 'index' %}">About</a></li>
+                                        <li><a class="" href="{% url 'tours' %}">Tours</a></li>
+                                        <li><a href="#">Reviews <i class="ti-angle-down"></i></a>
+                                            <ul class="submenu">
+                                                <li><a href="{% url 'review-list' %}">Review</a></li>
+                                                <li><a href="{% url 'create-review' %}">New review</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="../static/contact.html">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block ">
+                            <div class="social_wrap d-flex align-items-center justify-content-end">
+                                <div class="social_links d-none d-xl-block">
+                                    <ul>
+                                        <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
+                                        <li><a href="#"> <i class="fa fa-youtube"></i> </a></li>
+                                    </ul>
+                                </div>
+                                <div class="notification-icon">
+                                    <div class="dropdown show">
+                                        <a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <span class="badge badge-danger ml-2 num-of-noti"></span>
+                                            <i class="fa fa-bell fa-sm"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-2 d-none d-lg-block" style="padding-left: 80px;">
+                            {% if user.is_authenticated  %}
+                            <div class="dropdown show">
+                                <a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Hello, {{ request.user.get_username }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
+                                    <a class="dropdown-item" href="{% url 'booking-history' %}">Your tour</a>
+                                    <a class="dropdown-item" href="{% url 'user-activity' %}">Activity log</a>
+                                    <a class="dropdown-item" href="{% url 'logout'%}">Logout</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            <a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                            {%  endif %}
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    var notifications = []
+    const userId = '{{user.id}}'
+    function renderHtml(notification) {
+        if(parseInt(notification.action) == 1){
+            $('.notification-icon .dropdown-menu').append(`
+                <div class = "dropdown-item" id="${notification.pk}"> 
+                    <a href="{% url 'profile' %}" id="${notification.pk}">
+                        <h5 id="${notification.pk}" >
+                            ${notification.action_username} unfollow you
+                        </h5>
+                    </a>
+                    <p class="date">
+                        <i class="fa fa-clock"></i> ${notification.create_date}
+                    </p>
+                </div>
+            `)
+        }
+        else if(parseInt(notification.action) == 2){
+            $('.notification-icon .dropdown-menu').append(`
+                <div class = "dropdown-item" id="${notification.pk}"> 
+                    <a href="{% url 'profile' %}" id="${notification.pk}">
+                        <h5 id="${notification.pk}" >
+                            ${notification.action_username} unfollow you
+                        </h5>
+                    </a>
+                    <p class="date">
+                        <i class="fa fa-clock"></i> ${notification.create_date}
+                    </p>
+                </div>
+            `)
+        }
+        else{
+            $('.notification-icon .dropdown-menu').append(`
+                <div class = "dropdown-item" > 
+                    <a href="../../booking/${notification.action_model_id}/detail">
+                        <h5 id="${notification.pk}">
+                            ${notification.action_username} ${notification.booking_status.toLowerCase()} your booking
+                        </h5>
+                    </a>
+                    <p class="date" id="${notification.pk}>
+                        <i class="fa fa-clock"></i> ${notification.create_date}
+                    </p>
+                </div>
+            `)
+        }
+    }
+    if (parseInt(userId)) {
+        $.ajax
+            ({
+                url: "{% url 'get_notification' %}",
+                type: 'get',
+                success: function (result) {
+                    result = JSON.parse(result.toString()).notifications
+                    for (let i = 0; i < result.length; i++) {
+                        notifications.push(result[i])
+                        renderHtml(result[i])
+                        $('.num-of-noti').text(notifications.length)
+                    }
+                },
+                error: function (result) {
+                    console.log("Failed")
+                }
+            });
+
+        function deleteNotification(id) {
+            for (let i = 0; i < notifications.length; i++) {
+                if (parseInt(notifications[i].pk) == parseInt(id)) {
+                    notifications.splice(i, 1)
+                    break;
+                }
+            }
+        }
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/notification/'
+            + userId
+            + '/'
+        );
+
+        $('.notification-icon .dropdown-menu').on('click', 'a', (e) => {
+            var id = e.target.id
+            deleteNotification(id)
+            $(`.notification-icon #${id}`).remove()
+            let num_of_noti = notifications.length
+            if (num_of_noti > 0) {
+                $('.num-of-noti').text(num_of_noti)
+            }
+            else {
+                $('.num-of-noti').text('')
+            }
+            let message = id
+            sendMessage(chatSocket, message)
+        })
+
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            message = JSON.parse(data.message)
+            if(parseInt(message.user) == parseInt(userId)){
+                notifications.push(message)
+                renderHtml(message)
+                $('.num-of-noti').text(notifications.length)
+            }
+        };
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+        function sendMessage(chatSocket, message) {
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+        }
+    }
+</script>
+

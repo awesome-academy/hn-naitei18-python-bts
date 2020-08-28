@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tour, Image, Booking, Review, Comment, Profile, Follower, Voting, Activity
+from .models import Tour, Image, Booking, Review, Comment, Profile, Follower, Voting, Activity, Notification
 
 
 # Register your models here.
@@ -53,3 +53,6 @@ class VotingAdmin(admin.ModelAdmin):
 @admin.register(Activity)
 class UserActivity(admin.ModelAdmin):
     list_display = ('id', 'user', 'acti', 'url', 'date')
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('user', 'action_user', 'action', 'status')

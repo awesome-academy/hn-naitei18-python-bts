@@ -4,7 +4,7 @@ from django.db import transaction
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Tour, Review, Booking, Follower, Profile, Voting, Activity
+from .models import Tour, Review, Booking, Follower, Profile, Voting, Activity, Notification
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignupForm, ProfileForm, UserForm
@@ -60,6 +60,25 @@ def follow(request, pk):
         url = request.META.get('HTTP_REFERER')
         return  HttpResponseRedirect(url)
 
+from django.core import serializers
+from django.db.models import Count
+import json
+# @login_required
+def get_notification(request):
+    user = User.objects.get(username=str(request.user))
+    notifications = Notification.objects.filter(user=user, status=1)
+    notification_list = [ i for i in notifications.values('pk', 'action', 'action_model_id', 'action_user', 'user')]
+    for i, notification in enumerate(notification_list):
+        notification['action_username'] = notifications[i].action_user.username
+        notification['action_type'] = notifications[i].get_action_display()
+        notification['create_date'] = notifications[i].create_date.strftime('%H:%M %d-%m-%Y') 
+        if int(notification['action']) == 3 : 
+            notification['booking_status'] = Booking.objects.get(pk=notification['action_model_id']).get_status_display()
+    message = {
+        "notifications" : notification_list
+    }
+    message = json.dumps(message)
+    return HttpResponse(message)
 
 def profile(request, pk):
     is_followed = 0
@@ -347,8 +366,8 @@ def tour_detail(request, pk):
     model = get_object_or_404(Tour, pk=pk)
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
     suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('?')[:3]
-    user = User.objects.get(username=str(request.user))
     try:
+        user = User.objects.get(username=str(request.user))
         voting = model.voting_set.get(user=user)
     except:
         voting = None
