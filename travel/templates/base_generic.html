@@ -12,6 +12,7 @@
 	<!-- Place favicon.ico in the root directory -->
 	<!-- CSS here -->
 	{% load static %}
+	{% load i18n %}
 	<link rel="shortcut icon" type="image/x-icon" href="{% static '/img/favicon.png' %}">
 	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
 	<link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %} ">
@@ -60,13 +61,13 @@
 								<div class="main-menu  d-none d-lg-block">
 									<nav>
 										<ul id="navigation">
-											<li><a class="active" href="{% url 'index' %}">Home</a></li>
-											<li><a href="{% url 'index' %}">About</a></li>
-											<li><a class="" href="{% url 'tours' %}">Tours</a></li>
-											<li><a href="#">Reviews <i class="ti-angle-down"></i></a>
+												<li><a class="active" href="{% url 'index' %}">{% trans 'Home' %}</a></li>
+											<li><a href="{% url 'index' %}">{% trans 'About' %}</a></li>
+											<li><a class="" href="{% url 'tours' %}">{% trans 'Tours' %}</a></li>
+											<li><a href="#">{% trans 'Reviews' %}<i class="ti-angle-down"></i></a>
 												<ul class="submenu">
-													<li><a href="{% url 'review-list' %}">Review</a></li>
-													<li><a href="{% url 'create-review' %}">New review</a></li>
+													<li><a href="{% url 'review-list' %}">{% trans 'Review' %}</a></li>
+													<li><a href="{% url 'create-review' %}">{% trans 'New review' %}</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -88,21 +89,21 @@
 								</div>
 							</div>
 							<div class="col-xl-2 col-lg-2 d-none d-lg-block" style="padding-left: 80px;">
-								{% if user.is_authenticated  %}
+								{% if request.user.is_authenticated  %}
 								<div class="dropdown show">
 									<a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
 										aria-haspopup="true" aria-expanded="false">
 										Hello, {{ request.user.get_username }}
 									</a>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-										<a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
-										<a class="dropdown-item" href="{% url 'booking-history' %}">Your tour</a>
-                                        <a class="dropdown-item" href="{% url 'user-activity' %}">Activity log</a>
-                                        <a class="dropdown-item" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+										<a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Your profile' %}</a>
+										<a class="dropdown-item" href="{% url 'booking-history' %}">{% trans 'Your Booked' %}</a>
+										<a class="dropdown-item"
+											href="{% url 'logout'%}">{% trans 'Logout' %}</a>
 									</div>
 								</div>
 								{% else %}
-								<a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+								<a href="{% url 'login'%}?next={{request.path}}">{% trans 'Login' %}</a></li>
 								{%  endif %}
 							</div>
 							<div class="col-12">
@@ -172,10 +173,10 @@
 								Company
 							</h3>
 							<ul class="links">
-								<li><a href="#">Pricing</a></li>
-								<li><a href="#">About</a></li>
-								<li><a href="#"> Gallery</a></li>
-								<li><a href="#"> Contact</a></li>
+								<li><a href="#">{% trans 'Pricing' %}</a></li>
+								<li><a href="#">{% trans 'About' %}</a></li>
+								<li><a href="#"> {% trans 'Gallery' %}</a></li>
+								<li><a href="#"> {% trans 'Contact' %}</a></li>
 							</ul>
 						</div>
 					</div>

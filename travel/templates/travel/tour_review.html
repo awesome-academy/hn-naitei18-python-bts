@@ -6,6 +6,7 @@
 <!--================Blog Area =================-->
 <section class="blog_area single-post-area section-padding">
     <div class="container">
+        {% load i18n %}
         <div class="row">
             <div class="col-lg-8 posts-list">
                 <div class="single-post">
@@ -48,7 +49,7 @@
                             <div
                                 class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
                                 <div class="detials">
-                                    {#                                        <p>Next Review</p>#}
+                                    {#                                        <p>{% trans 'Next Review' %}</p>#}
                                     <a href="#">
                                         <h4></h4>
                                     </a>
@@ -71,14 +72,19 @@
                     <div class="media align-items-center">
                         <img src="{{ review.user.profile.avatar.url }}" alt="">
                         <div class="media-body">
-                            <a href="#">
+                            {% if request.user == review.user %}
+                                <a href="{% url 'profile' %}">
+                            {% else %}
+                                <a href="{% url 'profile-details' review.user.id %}">
+                            {% endif %}
                                 <h4>{{ review.user.username }}</h4>
+
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="container count-comment">
-                    <h4><span>{{ comment_list.count }}</span> Comments</h4>
+                    <h4><span>{{ comment_list.count }}</span> {% trans 'Comments' %}</h4>
                 </div>
                 <div class="comment-form">
                     <h4>Leave a Reply</h4>
@@ -91,7 +97,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="comment-submit button button-contactForm btn_1 boxed-btn">Comment
+                        <button type="submit" class="comment-submit button button-contactForm btn_1 boxed-btn">{% trans 'Comment' %}
                         </button>
                     </div>
                 </div>
@@ -122,7 +128,7 @@
                             <div class="col-9">
                                 <hr>
                                 <div class="form-group">
-                                    <input class="form-control reply-comment-input rep-comment-{{comment.id}}" type="text" 
+                                    <input class="form-control reply-comment-input rep-comment-{{comment.id}}" type="text"
                                         id="{{comment.id}}" placeholder="add a comment">
                                 </div>
                             </div>
@@ -131,13 +137,13 @@
                     </div>
                     {% endif %}
                     {% endfor %}
-                    
+
                 </div>
                 {% if  comment_list.count > 2 %}
                 <div class="container" id="loadMore">
                     <div class="row">
                         <div class="col-10">
-                            <a href="#" >Load More</a>
+                            <a href="#" >{% trans 'Load More' %}</a>
                         </div>
                     </div>
                 </div>
@@ -158,56 +164,56 @@
                                 </div>
                             </div>
                             <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Search
+                                type="submit">{% trans 'Search' %}
                             </button>
                         </form>
                     </aside>
                     <aside class="single_sidebar_widget post_category_widget">
-                        <h4 class="widget_title">Category</h4>
+                        <h4 class="widget_title">{% trans 'Category' %}</h4>
                         <ul class="list cat-list">
                             <li>
                                 <a href="#" class="d-flex">
-                                    <p>Resaurant food</p>
+                                    <p>{% trans 'Resaurant food' %}</p>
                                     <p>(37)</p>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="d-flex">
-                                    <p>Travel news</p>
+                                    <p>{% trans 'Travel news' %}</p>
                                     <p>(10)</p>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="d-flex">
-                                    <p>Travel abroad</p>
+                                    <p>{% trans 'Travel abroad' %}</p>
                                     <p>(03)</p>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="d-flex">
-                                    <p>domestic tourism</p>
+                                    <p>{% trans 'domestic tourism' %}</p>
                                     <p>(11)</p>
                                 </a>
                             </li>
                         </ul>
                     </aside>
                     <aside class="single_sidebar_widget tag_cloud_widget">
-                        <h4 class="widget_title">Tag Clouds</h4>
+                        <h4 class="widget_title">{% trans 'Tag Clouds' %}</h4>
                         <ul class="list">
                             <li>
-                                <a href="#">Ha Long</a>
+                                <a href="#">{% trans 'Ha Long' %}</a>
                             </li>
                             <li>
-                                <a href="#">Ha Noi</a>
+                                <a href="#">{% trans 'Ha Noi' %}</a>
                             </li>
                             <li>
-                                <a href="#">Nha Trang</a>
+                                <a href="#">{% trans 'Nha Trang' %}</a>
                             </li>
                             <li>
-                                <a href="#">Ho Chi Minh</a>
+                                <a href="#">{% trans 'Ho Chi Minh' %}</a>
                             </li>
                             <li>
-                                <a href="#">Phu Quoc</a>
+                                <a href="#">{% trans 'Phu Quoc' %}</a>
                             </li>
                         </ul>
                     </aside>
@@ -224,7 +230,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="section_title text-center mb_70">
-                    <h3>More places</h3>
+                    <h3>{% trans 'More places' %}</h3>
                 </div>
             </div>
         </div>
@@ -234,7 +240,7 @@
                 <div class="single_place">
                     <div class="thumb">
                         {% with sg_tour.image_set.all|first as image %}
-                            <img src="../../../media/{{ image.url }}">      
+                            <img src="../../../media/{{ image.url }}">
                         {% endwith %}
                     </div>
                     <div class="place_info">
@@ -245,7 +251,7 @@
                         <div class="rating_days d-flex justify-content-between">
                             <span class="d-flex justify-content-center align-items-center">
                                 <i class="fa fa-star"> {{ sg_tour.rating }}</i>
-                                <a href="#">{{ sg_tour.review_set.count }} reviews</a>
+                                <a href="#">{{ sg_tour.review_set.count }} {% trans 'reviews' %}</a>
                             </span>
                             <div class="days">
                                 <i class="fa fa-clock-o"></i>
@@ -302,7 +308,7 @@
                 alert("You must login")
             }
             $(e.target).val("");
-        }        
+        }
     });
 
     comment_submit.on('click', () => {
@@ -347,7 +353,7 @@
                     <div class="col-1"></div>
                     <div class="col-8">
                         <div class="form-group">
-                            <input class="form-control reply-comment-input rep-comment-${comment.id}" type="text" 
+                            <input class="form-control reply-comment-input rep-comment-${comment.id}" type="text"
                                 id="${comment.id}" placeholder="add a comment">
                         </div>
                     </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-20 09:28+0700\n"
+"POT-Creation-Date: 2020-08-31 14:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/registration/login.html:11
+#: BookingTourSystem/settings.py:118
+msgid "Việt Nam"
+msgstr ""
+
+#: BookingTourSystem/settings.py:119
+msgid "English"
+msgstr ""
+
+#: templates/registration/login.html:11 templates/registration/login.html:54
 msgid "Sign In"
 msgstr "Dang nhap"
 
@@ -31,25 +39,26 @@ msgid "Username or password wrong!"
 msgstr "sai tai khoan hoac mat khau"
 
 #: templates/registration/login.html:22
-msgid "Your username and password didn't match. Please try again. "
+#, fuzzy
+#| msgid "Your username and password didn't match. Please try again. "
+msgid "Your username and password didn\\"
 msgstr "tai khoan hoac mat khau khong dung, vui long thu lai"
 
-#: templates/registration/login.html:30
-msgid "Please login to see this page."
-msgstr "dang nhao de xem trang nay"
-
-#: templates/registration/login.html:52
+#: templates/registration/login.html:44
 msgid "Remember me"
 msgstr "Nho mat khau"
 
-#: templates/registration/login.html:63
+#: templates/registration/login.html:55
 msgid "Login with Facebook"
 msgstr "dang nhap voi facebook"
 
-#: templates/registration/login.html:72
+#: templates/registration/login.html:64
 msgid "Don't have an account!"
 msgstr "Chua co tai khoan"
 
-#: templates/registration/login.html:74
+#: templates/registration/login.html:66
 msgid "Sign Up Here"
 msgstr "Dang ky o day"
+
+#~ msgid "Please login to see this page."
+#~ msgstr "dang nhao de xem trang nay"
