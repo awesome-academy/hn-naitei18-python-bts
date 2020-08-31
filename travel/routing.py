@@ -4,6 +4,7 @@ from . import consumers
 
 websocket_urlpatterns = [
     re_path(r'ws/comment/(?P<review_name>\w+)/$', consumers.ReviewConsumer),
+    re_path(r'ws/notification/(?P<userId>\w+)/$', consumers.NotificationConsumer),
 ]
 
 

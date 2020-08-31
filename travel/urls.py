@@ -24,6 +24,9 @@ urlpatterns = [
     path('booking/<int:pk>/detail', views.booking_detail, name='booking_detail'),
     path('booking/<int:pk>/delete', views.booking_delete, name='booking_delete'),
     path('user/bookinglist', views.booking_history, name='booking-history'),
+
+    path('notifications/', views.get_notification, name='get_notification'),
+
     url(r'^register/$', views.signup, name='register'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
     path('logout/', views.front_page, name='logout'),
