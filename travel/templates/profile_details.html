@@ -3,8 +3,9 @@
 {% block content %}
 {% load static %}
 
-<div class="container">
+<div class="container" style="margin-bottom:30px">
 <div class="row">
+    {% load i18n %}
         <div class="col-12">
             <div class="card">
 
@@ -24,20 +25,21 @@
                                     <h2 style="margin-left:170px">{{ user.get_username }}</h3>
                                     <div class="row overview" style="margin-top:30px">
                                         <div class="col-md-3 user-pad text-center">
-                                            <h4>FOLLOWERS</h4>
+                                            <h4>{% trans 'FOLLOWERS' %}</h4>
                                             <h5>{{user.followers.count}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
-                                            <h4>FOLLOWING</h4>
+                                            <h4>{% trans 'FOLLOWING' %}</h4>
                                             <h5>{{user.following.count}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
-                                            <h4>REVIEWS</h4>
+                                            <h4>{% trans 'REVIEWS' %}</h4>
                                             <h5>{{review_num}}</h5>
                                         </div>
                                         <div class="col-md-3 user-pad text-center">
-                                            <form action="{% url 'follow' user.id%}" method='GET'>
-                                                <button type="submit" id= "follow" style="background-color: #34b1eb;" class="btn btn-secondary" name ="follow" > {% if is_followed %} UNFOLLOW {% else %} FOLLOW {% endif %} </button>
+                                            <form action="{% url 'follow' user.id%}" method='POST'>
+                                                {% csrf_token %}
+                                                <button type="submit" id= "follow" style="background-color: #34b1eb;" class="btn btn-secondary" name ="follow" > {% if is_followed %} {% trans 'UNFOLLOW' %} {% else %} {% trans 'FOLLOW' %} {% endif %} </button>
                                             </form>
 
                                         </div>
@@ -54,7 +56,7 @@
                             <div class="col-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">{% trans 'Basic Info' %}</a>
                                     </li>
 
                                 </ul>
@@ -64,7 +66,7 @@
 
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">User Name</label>
+                                                <label style="font-weight:bold;">{% trans 'User Name' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.get_username }}
@@ -77,7 +79,7 @@
 
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Email</label>
+                                                <label style="font-weight:bold;">{% trans 'Email' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.email }}
@@ -89,7 +91,7 @@
                                         <hr />
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Address</label>
+                                                <label style="font-weight:bold;">{% trans 'Address' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.profile.address }}
@@ -100,7 +102,7 @@
                                         <hr />
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Phone</label>
+                                                <label style="font-weight:bold;">{% trans 'Phone' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.profile.phone }}

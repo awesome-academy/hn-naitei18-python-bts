@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-20 13:07+0700\n"
+"POT-Creation-Date: 2020-08-31 14:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,78 +18,236 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: BookingTourSystem/settings.py:110
-msgid "Việt Nam"
+#: travel/forms.py:27 travel/templates/register.html:62
+msgid "Password"
+msgstr "Mật khẩu"
+
+#: travel/templates/base_generic.html:64
+msgid "Home"
+msgstr "Trang chủ"
+
+#: travel/templates/base_generic.html:65 travel/templates/base_generic.html:177
+msgid "About"
 msgstr ""
 
-#: BookingTourSystem/settings.py:111
-msgid "English"
+#: travel/templates/base_generic.html:66
+msgid "Tours"
+msgstr "Tours"
+
+#: travel/templates/base_generic.html:67
+msgid "Reviews"
+msgstr "Đánh giá"
+
+#: travel/templates/base_generic.html:69
+msgid "Review"
+msgstr "Đánh giá"
+
+#: travel/templates/base_generic.html:70
+msgid "New review"
+msgstr "Tạo đánh giá "
+
+#: travel/templates/base_generic.html:99
+msgid "Your profile"
+msgstr "Tài khoản"
+
+#: travel/templates/base_generic.html:100
+msgid "Your Booked"
+msgstr "Chuyến đi đã đặt"
+
+#: travel/templates/base_generic.html:102
+msgid "Logout"
+msgstr "Đăng xuất"
+
+#: travel/templates/base_generic.html:106
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: travel/templates/base_generic.html:176
+msgid "Pricing"
+msgstr "Giá tiền"
+
+#: travel/templates/base_generic.html:178
+msgid "Gallery"
 msgstr ""
 
-#: templates/registration/login.html:11 templates/registration/login.html:53
+#: travel/templates/base_generic.html:179
+msgid "Contact"
+msgstr "Liên hệ"
+
+#: travel/templates/profile.html:48 travel/templates/profile_details.html:28
+msgid "FOLLOWERS"
+msgstr "Người theo dõi"
+
+#: travel/templates/profile.html:52 travel/templates/profile_details.html:32
+msgid "FOLLOWING"
+msgstr "Đang theo dõi"
+
+#: travel/templates/profile.html:56 travel/templates/profile_details.html:36
+msgid "REVIEWS"
+msgstr "Đánh giá"
+
+#: travel/templates/profile.html:71 travel/templates/profile_details.html:59
+msgid "Basic Info"
+msgstr "Thông tin cơ bản"
+
+#: travel/templates/profile.html:81 travel/templates/profile_details.html:69
+#, fuzzy
+#| msgid "Username"
+msgid "User Name"
+msgstr "Tên đăng nhập"
+
+#: travel/templates/profile.html:94 travel/templates/profile_details.html:82
+#: travel/templates/register.html:35
+msgid "Email"
+msgstr "Email"
+
+#: travel/templates/profile.html:106 travel/templates/profile_details.html:94
+#: travel/templates/register.html:48
+msgid "Address"
+msgstr "Địa chỉ"
+
+#: travel/templates/profile.html:120 travel/templates/profile_details.html:105
+#: travel/templates/register.html:55
+msgid "Phone"
+msgstr "Số điện thoại"
+
+#: travel/templates/profile.html:137
+msgid "Edit"
+msgstr "Chỉnh sửa"
+
+#: travel/templates/profile.html:138
+msgid "Save"
+msgstr "Lưu"
+
+#: travel/templates/profile_details.html:42
+msgid "UNFOLLOW"
+msgstr "Bỏ theo dõi"
+
+#: travel/templates/profile_details.html:42
+msgid "FOLLOW"
+msgstr "Theo dõi"
+
+#: travel/templates/register.html:10 travel/templates/register.html:80
+msgid "Sign Up"
+msgstr "Đăng ký"
+
 #: travel/templates/register.html:11
 msgid "Sign In"
-msgstr "Dang nhap"
+msgstr "Đăng nhập"
 
-#: templates/registration/login.html:12
-msgid "Forgot password?"
-msgstr "Quen mat khau?"
-
-#: templates/registration/login.html:18
-msgid "Username or password wrong!"
-msgstr "Sai tai khoan hoac mat khau"
-
-#: templates/registration/login.html:22
-#, fuzzy
-#| msgid "Your username and password didn't match. Please try again. "
-msgid "Your username and password didn\\"
-msgstr "Tai khoan hoac mat khau khong dung, vui long thu lai"
-
-#: templates/registration/login.html:43
-msgid "Remember me"
-msgstr "Nho mat khau"
-
-#: templates/registration/login.html:54
-msgid "Login with Facebook"
-msgstr "Dang nhap voi facebook"
-
-#: templates/registration/login.html:63
-msgid "Don't have an account!"
-msgstr "Chua co tai khoan"
-
-#: templates/registration/login.html:65
-msgid "Sign Up Here"
-msgstr "Dang ky o day"
-
-#: travel/templates/register.html:10
-msgid "Sign Up"
-msgstr "Dang Ky"
-
-#: travel/templates/register.html:25
-msgid "Email"
-msgstr ""
-
-#: travel/templates/register.html:32
+#: travel/templates/register.html:42
 msgid "Username"
-msgstr "Ten dang nhap"
+msgstr "Tên đăng nhập"
 
-#: travel/templates/register.html:38
-msgid "Address"
-msgstr "Dia Chi"
+#: travel/templates/register.html:69
+#, fuzzy
+#| msgid "Password"
+msgid " ConFirm Password"
+msgstr "Xác nhận mật khẩu"
 
-#: travel/templates/register.html:45
-msgid "Phone"
-msgstr "So dien thoai"
-
-#: travel/templates/register.html:52
-msgid "Password"
-msgstr "Mat Khau"
-
-#: travel/templates/register.html:64
+#: travel/templates/register.html:81
 msgid "or"
-msgstr "Hoac"
+msgstr "hoặc"
 
-#: travel/templates/register.html:71
+#: travel/templates/register.html:88
 msgid "Sign Up with Facebook"
-msgstr "Dang ky bang Facebook"
+msgstr "Đăng ký bằng Facebook"
 
+#: travel/templates/travel/tour_review.html:82
+msgid "Comments"
+msgstr "Nhận xét"
+
+#: travel/templates/travel/tour_review.html:95
+msgid "Comment"
+msgstr "Nhận xét"
+
+#: travel/templates/travel/tour_review.html:141
+msgid "Load More"
+msgstr "Xem thêm"
+
+#: travel/templates/travel/tour_review.html:162
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: travel/templates/travel/tour_review.html:167
+msgid "Category"
+msgstr "Danh mục"
+
+#: travel/templates/travel/tour_review.html:171
+msgid "Resaurant food"
+msgstr "Nhà hàng"
+
+#: travel/templates/travel/tour_review.html:177
+msgid "Travel news"
+msgstr "Tin tức"
+
+#: travel/templates/travel/tour_review.html:183
+msgid "Travel abroad"
+msgstr "Du lịch nước ngoài"
+
+#: travel/templates/travel/tour_review.html:189
+msgid "domestic tourism"
+msgstr "Du lịch trong nước"
+
+#: travel/templates/travel/tour_review.html:196
+msgid "Tag Clouds"
+msgstr "Tag"
+
+#: travel/templates/travel/tour_review.html:199
+msgid "Ha Long"
+msgstr "Hạ Long"
+
+#: travel/templates/travel/tour_review.html:202
+msgid "Ha Noi"
+msgstr "Hà Nội"
+
+#: travel/templates/travel/tour_review.html:205
+msgid "Nha Trang"
+msgstr "Nha Trang"
+
+#: travel/templates/travel/tour_review.html:208
+msgid "Ho Chi Minh"
+msgstr "Hồ Chí Minh"
+
+#: travel/templates/travel/tour_review.html:211
+msgid "Phu Quoc"
+msgstr "Phú Quốc"
+
+#: travel/templates/travel/tour_review.html:228
+msgid "More places"
+msgstr "Xem thêm"
+
+#: travel/templates/travel/tour_review.html:249
+msgid "reviews"
+msgstr "đánh giá"
+
+#: travel/views.py:89
+msgid "Your profile was successfully updated!"
+msgstr "Tài khoản của bạn đã được cập nhật thành công"
+
+#: travel/views.py:92
+msgid "Please correct the error below."
+msgstr "Vui lòng nhập lại"
+
+#~ msgid "Forgot password?"
+#~ msgstr "Quên mật khẩu"
+
+#~ msgid "Username or password wrong!"
+#~ msgstr "Sai tài khoản hoặc mật khẩu"
+
+#, fuzzy
+#~| msgid "Your username and password didn't match. Please try again. "
+#~ msgid "Your username and password didn\\"
+#~ msgstr "Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại"
+
+#~ msgid "Remember me"
+#~ msgstr "Lưu tài khoản"
+
+#~ msgid "Login with Facebook"
+#~ msgstr "Đăng nhập bằng Facebook"
+
+#~ msgid "Don't have an account!"
+#~ msgstr "Chưa có tài khoản"
+
+#~ msgid "Sign Up Here"
+#~ msgstr "Đăng ký"

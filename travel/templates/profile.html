@@ -3,8 +3,9 @@
 {% block content %}
 {% load static %}
 
-<div class="container">
+<div class="container" style="margin-bottom:30px">>
 <div class="row">
+    {% load i18n %}
         <div class="col-12">
             <div class="card">
 
@@ -44,15 +45,15 @@
                                     <h2 style="margin-left:180px">{{ user.get_username }}</h3>
                                     <div class="row overview" style="margin-top:50px">
                                         <div class="col-md-4 user-pad text-center">
-                                            <h4>FOLLOWERS</h4>
+                                            <h4>{% trans 'FOLLOWERS' %}</h4>
                                             <h5>{{user.followers.count}}</h5>
                                         </div>
                                         <div class="col-md-4 user-pad text-center">
-                                            <h4>FOLLOWING</h4>
+                                            <h4>{% trans 'FOLLOWING' %}</h4>
                                             <h5>{{user.following.count}}</h5>
                                         </div>
                                         <div class="col-md-4 user-pad text-center">
-                                            <h4>REVIEWS</h4>
+                                            <h4>{% trans 'REVIEWS' %}</h4>
                                             <h5>{{review_num}}</h5>
                                         </div>
 
@@ -67,7 +68,7 @@
                             <div class="col-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">{% trans 'Basic Info' %}</a>
                                     </li>
 
                                 </ul>
@@ -77,7 +78,7 @@
 
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">User Name</label>
+                                                <label style="font-weight:bold;">{% trans 'User Name' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.get_username }}
@@ -90,7 +91,7 @@
 
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Email</label>
+                                                <label style="font-weight:bold;">{% trans 'Email' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 {{ user.email }}
@@ -102,7 +103,7 @@
                                         <hr />
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Address</label>
+                                                <label style="font-weight:bold;">{% trans 'Address' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 <p class="no-edit" >{{ user.profile.address }}</p>
@@ -116,7 +117,7 @@
                                         <hr />
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Phone</label>
+                                                <label style="font-weight:bold;">{% trans 'Phone' %}</label>
                                             </div>
                                             <div class="col-md-8 col-6">
                                                 <p class="no-edit">{{ user.profile.phone }}</p>
@@ -133,8 +134,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary edit" style="margin-top: 10px;"><span>Edit</span></button>
-                        <button type="submit" class="btn btn-primary save_btn" style="margin-top: 10px;"><span>Save</span></button>
+                        <button type="button" class="btn btn-primary edit" style="margin-top: 10px;"><span>{% trans 'Edit' %}</span></button>
+                        <button type="submit" class="btn btn-primary save_btn" style="margin-top: 10px;"><span>{% trans 'Save' %}</span></button>
                     </form>
                 </div>
             </div>

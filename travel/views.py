@@ -38,29 +38,36 @@ def front_page(request):
 
 @login_required
 def follow(request, pk):
-    tuser = get_object_or_404(User, pk=pk)
-    is_followed = 0
-    if (Follower.objects.filter(follower=request.user, following=tuser)):
-        Follower.objects.filter(follower=request.user, following=tuser).delete()
+    if request.method == 'POST':
+        tuser = get_object_or_404(User, pk=pk)
         is_followed = 0
-        activity = Activity(user=request.user, acti="now unfollow user" + tuser.username, url = tuser.profile.get_absolute_url())
+
+        if (Follower.objects.filter(follower=request.user, following=tuser)):
+            Follower.objects.filter(follower=request.user, following=tuser).delete()
+            is_followed = 0
+            activity = Activity(user=request.user, acti="now unfollow user" + tuser.username, url = tuser.profile.get_absolute_url())
+        else:
+            follow = Follower(follower=request.user, following=tuser)
+            follow.save()
+            is_followed = 1
+            activity = Activity(user=request.user, acti="now follow user" + tuser.username, url = tuser.profile.get_absolute_url())
+        review_num = Review.objects.filter(user=tuser).count()
+        activity.save()
+
+        return render(request, 'profile_details.html',
+                      {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
     else:
-        follow = Follower(follower=request.user, following=tuser)
-        follow.save()
-        is_followed = 1
-        activity = Activity(user=request.user, acti="now follow user" + tuser.username, url = tuser.profile.get_absolute_url())
-    review_num = Review.objects.filter(user=tuser).count()
-    activity.save()
-    return render(request, 'profile_details.html',
-                  {'user': tuser, 'is_followed': is_followed, 'review_num': review_num})
+        url = request.META.get('HTTP_REFERER')
+        return  HttpResponseRedirect(url)
 
 
 def profile(request, pk):
     is_followed = 0
     user = get_object_or_404(User, pk=pk)
     review_num = Review.objects.filter(user=user).count()
-    if Follower.objects.filter(follower=request.user, following=user):
-        is_followed = 1
+    if request.user.is_authenticated:
+        if Follower.objects.filter(follower=request.user, following=user):
+            is_followed = 1
     return render(request, 'profile_details.html', {'user': user, 'is_followed': is_followed, 'review_num': review_num})
 
 
@@ -205,6 +212,7 @@ from django.db.models import Avg
 
 
 def create_voting(request, pk):
+
     tour = get_object_or_404(Tour, pk=pk)
     user = User.objects.get(username=str(request.user))
     if request.method == 'POST':
