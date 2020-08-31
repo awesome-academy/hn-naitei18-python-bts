@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-31 14:10+0700\n"
+"POT-Creation-Date: 2020-09-01 00:05+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,100 +22,101 @@ msgstr ""
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: travel/templates/base_generic.html:64
-msgid "Home"
-msgstr "Trang chủ"
-
-#: travel/templates/base_generic.html:65 travel/templates/base_generic.html:177
-msgid "About"
-msgstr ""
-
-#: travel/templates/base_generic.html:66
-msgid "Tours"
-msgstr "Tours"
-
-#: travel/templates/base_generic.html:67
-msgid "Reviews"
-msgstr "Đánh giá"
-
-#: travel/templates/base_generic.html:69
-msgid "Review"
-msgstr "Đánh giá"
-
-#: travel/templates/base_generic.html:70
-msgid "New review"
-msgstr "Tạo đánh giá "
-
-#: travel/templates/base_generic.html:99
-msgid "Your profile"
-msgstr "Tài khoản"
-
-#: travel/templates/base_generic.html:100
-msgid "Your Booked"
-msgstr "Chuyến đi đã đặt"
-
-#: travel/templates/base_generic.html:102
-msgid "Logout"
-msgstr "Đăng xuất"
-
-#: travel/templates/base_generic.html:106
-msgid "Login"
-msgstr "Đăng nhập"
-
-#: travel/templates/base_generic.html:176
+#: travel/templates/base_generic.html:107
 msgid "Pricing"
 msgstr "Giá tiền"
 
-#: travel/templates/base_generic.html:178
-msgid "Gallery"
-msgstr ""
+#: travel/templates/base_generic.html:108
+msgid "About"
+msgstr "About"
 
-#: travel/templates/base_generic.html:179
+#: travel/templates/base_generic.html:109
+msgid "Gallery"
+msgstr "Gallery"
+
+#: travel/templates/base_generic.html:110
 msgid "Contact"
 msgstr "Liên hệ"
 
-#: travel/templates/profile.html:48 travel/templates/profile_details.html:28
+#: travel/templates/includes/base_header.html:25
+msgid "Home"
+msgstr "Trang chủ"
+
+#: travel/templates/includes/base_header.html:27
+msgid "Tours"
+msgstr "Tours"
+
+#: travel/templates/includes/base_header.html:30
+msgid "Review"
+msgstr "Đánh giá"
+
+#: travel/templates/includes/base_header.html:31
+msgid "New review"
+msgstr "Tạo đánh giá "
+
+#: travel/templates/includes/base_header.html:73
+msgid "Your profile"
+msgstr "Tài khoản"
+
+#: travel/templates/includes/base_header.html:74
+#, fuzzy
+#| msgid "Your Booked"
+msgid "Your Tour"
+msgstr "Tour đã đặt"
+
+#: travel/templates/includes/base_header.html:75
+msgid "Activity log"
+msgstr "Hoạt động"
+
+#: travel/templates/includes/base_header.html:76
+msgid "Logout"
+msgstr "Đăng xuất"
+
+#: travel/templates/includes/base_header.html:80
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: travel/templates/profile.html:47 travel/templates/profile_details.html:28
 msgid "FOLLOWERS"
 msgstr "Người theo dõi"
 
-#: travel/templates/profile.html:52 travel/templates/profile_details.html:32
+#: travel/templates/profile.html:51 travel/templates/profile_details.html:32
 msgid "FOLLOWING"
 msgstr "Đang theo dõi"
 
-#: travel/templates/profile.html:56 travel/templates/profile_details.html:36
+#: travel/templates/profile.html:55 travel/templates/profile_details.html:36
 msgid "REVIEWS"
 msgstr "Đánh giá"
 
-#: travel/templates/profile.html:71 travel/templates/profile_details.html:59
+#: travel/templates/profile.html:70 travel/templates/profile_details.html:59
 msgid "Basic Info"
 msgstr "Thông tin cơ bản"
 
-#: travel/templates/profile.html:81 travel/templates/profile_details.html:69
+#: travel/templates/profile.html:80 travel/templates/profile_details.html:69
 #, fuzzy
-#| msgid "Username"
 msgid "User Name"
 msgstr "Tên đăng nhập"
 
-#: travel/templates/profile.html:94 travel/templates/profile_details.html:82
+#: travel/templates/profile.html:93 travel/templates/profile_details.html:82
 #: travel/templates/register.html:35
 msgid "Email"
 msgstr "Email"
 
-#: travel/templates/profile.html:106 travel/templates/profile_details.html:94
+#: travel/templates/profile.html:105 travel/templates/profile_details.html:94
 #: travel/templates/register.html:48
 msgid "Address"
 msgstr "Địa chỉ"
 
-#: travel/templates/profile.html:120 travel/templates/profile_details.html:105
+#: travel/templates/profile.html:119 travel/templates/profile_details.html:105
 #: travel/templates/register.html:55
 msgid "Phone"
 msgstr "Số điện thoại"
 
-#: travel/templates/profile.html:137
+#: travel/templates/profile.html:136
 msgid "Edit"
 msgstr "Chỉnh sửa"
 
-#: travel/templates/profile.html:138
+#: travel/templates/profile.html:137
 msgid "Save"
 msgstr "Lưu"
 
@@ -153,81 +154,84 @@ msgstr "hoặc"
 msgid "Sign Up with Facebook"
 msgstr "Đăng ký bằng Facebook"
 
-#: travel/templates/travel/tour_review.html:82
+#: travel/templates/travel/tour_review.html:87
 msgid "Comments"
 msgstr "Nhận xét"
 
-#: travel/templates/travel/tour_review.html:95
+#: travel/templates/travel/tour_review.html:100
 msgid "Comment"
 msgstr "Nhận xét"
 
-#: travel/templates/travel/tour_review.html:141
+#: travel/templates/travel/tour_review.html:146
 msgid "Load More"
 msgstr "Xem thêm"
 
-#: travel/templates/travel/tour_review.html:162
+#: travel/templates/travel/tour_review.html:167
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: travel/templates/travel/tour_review.html:167
+#: travel/templates/travel/tour_review.html:172
 msgid "Category"
 msgstr "Danh mục"
 
-#: travel/templates/travel/tour_review.html:171
+#: travel/templates/travel/tour_review.html:176
 msgid "Resaurant food"
 msgstr "Nhà hàng"
 
-#: travel/templates/travel/tour_review.html:177
+#: travel/templates/travel/tour_review.html:182
 msgid "Travel news"
 msgstr "Tin tức"
 
-#: travel/templates/travel/tour_review.html:183
+#: travel/templates/travel/tour_review.html:188
 msgid "Travel abroad"
 msgstr "Du lịch nước ngoài"
 
-#: travel/templates/travel/tour_review.html:189
+#: travel/templates/travel/tour_review.html:194
 msgid "domestic tourism"
 msgstr "Du lịch trong nước"
 
-#: travel/templates/travel/tour_review.html:196
+#: travel/templates/travel/tour_review.html:201
 msgid "Tag Clouds"
 msgstr "Tag"
 
-#: travel/templates/travel/tour_review.html:199
+#: travel/templates/travel/tour_review.html:204
 msgid "Ha Long"
 msgstr "Hạ Long"
 
-#: travel/templates/travel/tour_review.html:202
+#: travel/templates/travel/tour_review.html:207
 msgid "Ha Noi"
 msgstr "Hà Nội"
 
-#: travel/templates/travel/tour_review.html:205
+#: travel/templates/travel/tour_review.html:210
 msgid "Nha Trang"
 msgstr "Nha Trang"
 
-#: travel/templates/travel/tour_review.html:208
+#: travel/templates/travel/tour_review.html:213
 msgid "Ho Chi Minh"
 msgstr "Hồ Chí Minh"
 
-#: travel/templates/travel/tour_review.html:211
+#: travel/templates/travel/tour_review.html:216
 msgid "Phu Quoc"
 msgstr "Phú Quốc"
 
-#: travel/templates/travel/tour_review.html:228
+#: travel/templates/travel/tour_review.html:233
 msgid "More places"
 msgstr "Xem thêm"
 
-#: travel/templates/travel/tour_review.html:249
+#: travel/templates/travel/tour_review.html:254
 msgid "reviews"
 msgstr "đánh giá"
 
-#: travel/views.py:89
+#: travel/views.py:108
 msgid "Your profile was successfully updated!"
 msgstr "Tài khoản của bạn đã được cập nhật thành công"
 
-#: travel/views.py:92
+#: travel/views.py:111
 msgid "Please correct the error below."
 msgstr "Vui lòng nhập lại"
+
+#~ msgid "Reviews"
+#~ msgstr "Đánh giá"
 
 #~ msgid "Forgot password?"
 #~ msgstr "Quên mật khẩu"

@@ -71,8 +71,8 @@ def get_notification(request):
     for i, notification in enumerate(notification_list):
         notification['action_username'] = notifications[i].action_user.username
         notification['action_type'] = notifications[i].get_action_display()
-        notification['create_date'] = notifications[i].create_date.strftime('%H:%M %d-%m-%Y') 
-        if int(notification['action']) == 3 : 
+        notification['create_date'] = notifications[i].create_date.strftime('%H:%M %d-%m-%Y')
+        if int(notification['action']) == 3 :
             notification['booking_status'] = Booking.objects.get(pk=notification['action_model_id']).get_status_display()
     message = {
         "notifications" : notification_list
@@ -225,6 +225,23 @@ def create_booking(request, pk):
             'tour': tour
         }
     return render(request, 'travel/create_booking.html', context=context)
+
+def change_language(request):
+    response = HttpResponseRedirect('/')
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language:
+            if language != settings.LANGUAGE_CODE and [lang for lang in settings.LANGUAGES if lang[0] == language]:
+                redirect_path = f'/{language}/'
+            elif language == settings.LANGUAGE_CODE:
+                redirect_path = '/'
+            else:
+                return response
+            from django.utils import translation
+            translation.activate(language)
+            response = HttpResponseRedirect(redirect_path)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+    return response
 
 
 from django.db.models import Avg

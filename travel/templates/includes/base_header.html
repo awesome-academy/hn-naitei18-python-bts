@@ -4,6 +4,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 
 {% load static %}
+{% load i18n %}
 <header>
     <div class="header-area ">
         <div id="sticky-header" class="main-header-area">
@@ -21,16 +22,22 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="{% url 'index' %}">Home</a></li>
-                                        <li><a href="{% url 'index' %}">About</a></li>
-                                        <li><a class="" href="{% url 'tours' %}">Tours</a></li>
+                                        <li><a class="active" href="{% url 'index' %}">{% trans 'Home' %}</a></li>
+
+                                        <li><a class="" href="{% url 'tours' %}">{% trans 'Tours' %}</a></li>
                                         <li><a href="#">Reviews <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
-                                                <li><a href="{% url 'review-list' %}">Review</a></li>
-                                                <li><a href="{% url 'create-review' %}">New review</a></li>
+                                                <li><a href="{% url 'review-list' %}">{% trans 'Review' %}</a></li>
+                                                <li><a href="{% url 'create-review' %}">{% trans 'New review' %}</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="../static/contact.html">Contact</a></li>
+                                        <li>
+                                            {% if request.LANGUAGE_CODE == 'en' %}
+                                                   <a href="/vi{{ request.get_full_path|slice:'3:' }}">Vietnamese</a>
+                                            {% else %}
+                                                   <a href="/en{{ request.get_full_path|slice:'3:' }}">English</a>
+                                            {% endif %}
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -56,21 +63,21 @@
                             </div>
                         </div>
                         <div class="col-xl-2 col-lg-2 d-none d-lg-block" style="padding-left: 80px;">
-                            {% if user.is_authenticated  %}
+                            {% if request.user.is_authenticated  %}
                             <div class="dropdown show">
                                 <a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     Hello, {{ request.user.get_username }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="{% url 'profile' %}">Your profile</a>
-                                    <a class="dropdown-item" href="{% url 'booking-history' %}">Your tour</a>
-                                    <a class="dropdown-item" href="{% url 'user-activity' %}">Activity log</a>
-                                    <a class="dropdown-item" href="{% url 'logout'%}">Logout</a>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Your profile' %}</a>
+                                    <a class="dropdown-item" href="{% url 'booking-history' %}">{% trans 'Your Tour' %}</a>
+                                    <a class="dropdown-item" href="{% url 'user-activity' %}">{% trans 'Activity log' %}</a>
+                                    <a class="dropdown-item" href="{% url 'logout'%}">{% trans 'Logout' %}</a>
                                 </div>
                             </div>
                             {% else %}
-                            <a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                            <a href="{% url 'login'%}?next={{request.path}}">{% trans 'Login' %}</a></li>
                             {%  endif %}
                         </div>
                         <div class="col-12">
@@ -88,7 +95,7 @@
     function renderHtml(notification) {
         if(parseInt(notification.action) == 1){
             $('.notification-icon .dropdown-menu').append(`
-                <div class = "dropdown-item" id="${notification.pk}"> 
+                <div class = "dropdown-item" id="${notification.pk}">
                     <a href="{% url 'profile' %}" id="${notification.pk}">
                         <h5 id="${notification.pk}" >
                             ${notification.action_username} unfollow you
@@ -102,7 +109,7 @@
         }
         else if(parseInt(notification.action) == 2){
             $('.notification-icon .dropdown-menu').append(`
-                <div class = "dropdown-item" id="${notification.pk}"> 
+                <div class = "dropdown-item" id="${notification.pk}">
                     <a href="{% url 'profile' %}" id="${notification.pk}">
                         <h5 id="${notification.pk}" >
                             ${notification.action_username} unfollow you
@@ -116,7 +123,7 @@
         }
         else{
             $('.notification-icon .dropdown-menu').append(`
-                <div class = "dropdown-item" > 
+                <div class = "dropdown-item" >
                     <a href="../../booking/${notification.action_model_id}/detail">
                         <h5 id="${notification.pk}">
                             ${notification.action_username} ${notification.booking_status.toLowerCase()} your booking
