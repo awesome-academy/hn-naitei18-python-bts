@@ -1,7 +1,7 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import Profile, Comment, Review
+from .models import Profile, Comment, Review, Activity
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
@@ -36,27 +36,29 @@ class ReviewConsumer(WebsocketConsumer):
         user = User.objects.get(id=userId)
         review = Review.objects.get(id=reviewId)
 
-        if parentCommentId != -1 :
+        if parentCommentId != -1:
             parentComment = Comment.objects.get(id=parentCommentId)
-            comment = Comment(user = user, parent_comment = parentComment, review = review, content = message)
-        else :         
-            comment = Comment(user = user, review = review, content = message)
-        comment.save()        
+            comment = Comment(user=user, parent_comment=parentComment, review=review, content=message)
+        else:
+            comment = Comment(user=user, review=review, content=message)
+        comment.save()
+        activity = Activity(user=user, acti="comment on a review", url=review.get_absolute_url() )
+        activity.save()
         commentInfor = {
-            'parentCommentId' : parentCommentId,
-            'id' : comment.id,
+            'parentCommentId': parentCommentId,
+            'id': comment.id,
         }
 
         commentInfor = json.dumps(commentInfor)
-        htmlRender = render_to_string("travel/includes/comments.html",{'comment':comment})
-        
+        htmlRender = render_to_string("travel/includes/comments.html", {'comment': comment})
+
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.review_group_name,
             {
                 'type': 'chat_message',
                 'comment': commentInfor,
-                'htmlRender' : htmlRender
+                'htmlRender': htmlRender
             }
         )
 
@@ -67,8 +69,5 @@ class ReviewConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'comment': comment,
-            'htmlRender' : htmlRender,
+            'htmlRender': htmlRender,
         }))
-
-
-

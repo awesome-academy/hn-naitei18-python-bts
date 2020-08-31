@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import Tour, Image, Booking, Review, Comment, Profile, Follower, Voting
+from .models import Tour, Image, Booking, Review, Comment, Profile, Follower, Voting, Activity
 
 
 # Register your models here.
-
 
 class ImageInline(admin.TabularInline):
     model = Image
@@ -36,10 +35,11 @@ class ReviewAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'address', 'phone')
 
+
 @admin.register(Follower)
 class Follower(admin.ModelAdmin):
     """docstring for Follower"""
-    list_display = ('follower','following', 'date_added')
+    list_display = ('follower', 'following', 'date_added')
 
 
 @admin.register(Booking)
@@ -49,3 +49,7 @@ class BookingAdmin(admin.ModelAdmin):
 @admin.register(Voting)
 class VotingAdmin(admin.ModelAdmin):
     list_display = ('user', 'tour', 'star')
+
+@admin.register(Activity)
+class UserActivity(admin.ModelAdmin):
+    list_display = ('id', 'user', 'acti', 'url', 'date')

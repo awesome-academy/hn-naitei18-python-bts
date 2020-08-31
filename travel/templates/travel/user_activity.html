@@ -1,0 +1,94 @@
+{{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+
+
+
+    <div class="limiter col-lg-8">
+        <div class="title-log">
+            <h1>Activity log</h1>
+        </div>
+        <div class="tab">
+            <button class="tab-links" onclick="openLog(event, 'owner')" id="defaultOpen">{{ user.username }}</button>
+            <button class="tab-links" onclick="openLog(event, 'following-user')">Following</button>
+        </div>
+        <div id="owner" class="tab-content1">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table">
+                        <div class="row header">
+                            <div class="cell">
+                                Date
+                            </div>
+                            <div class="cell">
+                                Activity
+                            </div>
+                        </div>
+                        {% for activity in self_activities %}
+                            <a href="{{ activity.url }}" class="hidden-comment1">
+                                <div class="row" style="">
+                                    <div class="cell " data-title="Date">
+                                        {{ activity.date }}
+                                    </div>
+                                    <div class="cell " data-title="Action">
+                                        You {{ activity.acti }}
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if  self_activities.count > 2 %}
+                <div class="container" id="loadMore1">
+                    <div class="row">
+                        <div class="col-10">
+                            <a href="#">Load More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="following-user" class="tab-content1">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table">
+                        <div class="row header">
+                            <div class="cell">
+                                Date
+                            </div>
+                            <div class="cell">
+                                Activity
+                            </div>
+                        </div>
+                        {% for activity in following_activities %}
+                            <a href="{{ activity.url }}" class="hidden-comment2">
+                                <div class="row" style="">
+                                    <div class="cell " data-title="Date">
+                                        {{ activity.date }}
+                                    </div>
+                                    <div class="cell " data-title="Action">
+                                        {{activity.user.username}} {{ activity.acti }}
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if  fl_ac_count > 2 %}
+                <div class="container" id="loadMore2">
+                    <div class="row">
+                        <div class="col-10">
+                            <a href="#">Load More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+{% endblock %}}
