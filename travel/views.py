@@ -222,7 +222,7 @@ def create_booking(request, pk):
                 message='{0} request booking with tour {1}'.format(request.user, tour),
                 html_message=html_message,
                 from_email=env('EMAIL_HOST_USER'),
-                recipient_list=[env('EMAIL_ADMIN'), ],
+                recipient_list=[env('EMAIL_ADMIN'), ]
             )
             activity = Activity(user=user, acti="booking a tour " + tour.title, url=booking.get_absolute_url())
             activity.save()
