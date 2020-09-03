@@ -474,15 +474,12 @@ def create_review(request):
 def user_activity(request):
     user = User.objects.get(username=str(request.user))
     self_activities = user.activity_set.all()
-    following_list1 = user.following.all().exclude(following__username=user.username)
-
-    # following_list = Activity.objects.filter(user_id__in=)
+    following_list1 = Follower.objects.filter(follower=request.user)
     actilist = []
     for a in following_list1:
         name = a.following.activity_set.all()
         for abc in name:
             actilist.append(abc)
-
 
     context = {
         'user': user,

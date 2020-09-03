@@ -24,50 +24,6 @@
                         </p>
                     </div>
                 </div>
-                <div class="navigation-top">
-                    <div class="navigation-area">
-                        <div class="row">
-                            <div
-                                class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-                                <div class="thumb">
-                                    <a href="{{ suggest_review.first.get_absolute_url }}">
-                                        <img class="img-fluid" src="{{ suggest_review.first.picture.url }}" alt="">
-                                    </a>
-                                </div>
-                                <div class="arrow">
-                                    <a href="#">
-                                        <span class="lnr text-white ti-arrow-left"></span>
-                                    </a>
-                                </div>
-                                <div class="detials">
-                                    <p>Prev Review</p>
-                                    <a href="#">
-                                        <h4>{{ suggest_review.first.title }}</h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-                                <div class="detials">
-                                    {#                                        <p>{% trans 'Next Review' %}</p>#}
-                                    <a href="#">
-                                        <h4></h4>
-                                    </a>
-                                </div>
-                                <div class="arrow">
-                                    <a href="#">
-                                        <span class="lnr text-white ti-arrow-right"></span>
-                                    </a>
-                                </div>
-                                <div class="thumb">
-                                    <a href="#">
-                                        <img class="img-fluid" src="../../static/img/post/next.png" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="blog-author">
                     <div class="media align-items-center">
                         <img src="{{ review.user.profile.avatar.url }}" alt="">

@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- bradcam_area  -->
-<div class="bradcam_area bradcam_bg_4 ">
+<div class="bradcam_area bradcam_bg_4 " >
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="blog_details">
                         <h2>{{ tour.title }} </h2>
-                        <h3>{{tour.rating}} <span class="voting-star fa fa-star fa-lg checked"></span></h3>
+                        <h3>{{tour.rating|floatformat}} <span class="voting-star fa fa-star fa-lg checked"></span></h3>
                         <ul class="blog-info-link mt-3 mb-4">
                             <li><a href="#"><i class="fa fa-calendar"></i>{{ tour.start_location }}
                                     - {{ tour.destination }} </a></li>
