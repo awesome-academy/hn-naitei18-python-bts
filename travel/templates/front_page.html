@@ -80,8 +80,8 @@
                                             <div class="rating_days d-flex justify-content-between">
                                         <span class="d-flex justify-content-center align-items-center">
                                              <i class="fa fa-star"></i>
-                                            <a>{{ tour.rating }}</a>
-                                             <a href="#">{{ tour.review_set.count }} reviews</a>
+                                            <a>{{ tour.rating|floatformat }}</a>
+                                            <a href="#">{{ tour.review_set.count }} reviews</a>
                                         </span>
                                                 <div class="days">
                                                     <i class="fa fa-clock-o"></i>

@@ -4,7 +4,7 @@
     {% if selected_tour %}
         <!-- bradcam_area  -->
         <div class="bradcam_area "
-             style="background-image: url(../../../media/{{ selected_tour.image_set.first.url }})">
+            style="background-image: url(../../../media/{{ selected_tour.image_set.first.url }})">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
@@ -17,7 +17,7 @@
         </div>
         <!--/ bradcam_area  -->
     {% endif %}
-    <div class="booking-form">
+    <div class="booking-form" style="margin-top: 30px ;">
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="container">
@@ -68,7 +68,7 @@
                                                                    name="review-title"
                                                                    type="text"
                                                                    required
-                                                                   placeholder="タイトル">
+                                                                   placeholder="Title">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -92,7 +92,7 @@
                                                         <div class="form-group">
                                                     <textarea class="form-control w-100" name="content" id="content"
                                                               cols="30" rows="9" required
-                                                              placeholder="ご自由に書いてください。"></textarea>
+                                                              placeholder="write description。"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-12 left-padding justify-content-between form-group">
                         <a href="">
-                            <button type="submit" class="button button-contactForm btn_1 boxed-btn" >Booking
+                            <button type="submit" class="button button-contactForm btn_1 boxed-btn" >Submit
                             </button>
                         </a>
                     </div>
