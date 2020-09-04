@@ -23,6 +23,7 @@ urlpatterns = [
     path('user/history', views.booking_history, name='booking-history'),
     path('booking/<int:pk>/detail', views.booking_detail, name='booking_detail'),
     path('booking/<int:pk>/delete', views.booking_delete, name='booking_delete'),
+    path('booking/<int:pk>/<int:status>', views.booking_status, name='booking_status'),
     path('user/bookinglist', views.booking_history, name='booking-history'),
 
     path('notifications/', views.get_notification, name='get_notification'),

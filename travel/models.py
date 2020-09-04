@@ -184,7 +184,7 @@ class Notification(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return str(self.get_action_display())
-    
+
 class Follower(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
     following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
@@ -205,16 +205,16 @@ def create_new_folow_notifications(sender, **kwargs):
         notification = Notification(user = folow.following, action_user = folow.follower, action_model_id = folow.id, action=1, status=1)
         notification.save()
         message = {
-            'pk' : notification.pk, 
-            'action' : notification.action , 
-            'action_model_id' : notification.action_model_id, 
-            'action_user' : notification.action_user.id, 
-            'user' : notification.user.id,            
+            'pk' : notification.pk,
+            'action' : notification.action ,
+            'action_model_id' : notification.action_model_id,
+            'action_user' : notification.action_user.id,
+            'user' : notification.user.id,
             'create_date' : notification.create_date.strftime('%H:%M %d-%m-%Y'),
-            'action_username': notification.action_user.username, 
+            'action_username': notification.action_user.username,
             'action_type' : notification.get_action_display(),
         }
-        
+
         message = json.dumps(message)
         async_to_sync(channel_layer.group_send)(
             room_name, {
@@ -230,13 +230,13 @@ def create_un_folow_notifications(sender, **kwargs):
     notification = Notification(user = folow.following, action_user = folow.follower, action_model_id = folow.id, action=2, status=1)
     notification.save()
     message = {
-        'pk' : notification.pk, 
-        'action' : notification.action , 
-        'action_model_id' : notification.action_model_id, 
-        'action_user' : notification.action_user.id, 
+        'pk' : notification.pk,
+        'action' : notification.action ,
+        'action_model_id' : notification.action_model_id,
+        'action_user' : notification.action_user.id,
         'user' : notification.user.id,
         'create_date' : notification.create_date.strftime('%H:%M %d-%m-%Y'),
-        'action_username': notification.action_user.username, 
+        'action_username': notification.action_user.username,
         'action_type' : notification.get_action_display(),
     }
     message = json.dumps(message)
@@ -256,12 +256,12 @@ def create_change_booking_notifications(sender, **kwargs):
     notification = Notification(user = booking.user, action_user = action_user ,action_model_id = booking.id, action=3, status=1)
     notification.save()
     message = {
-        'pk' : notification.pk, 
-        'action' : notification.action , 
-        'action_model_id' : notification.action_model_id, 
-        'action_user' : 'admin', 
-        'user' : notification.user.id, 
-        'action_username': 'admin', 
+        'pk' : notification.pk,
+        'action' : notification.action ,
+        'action_model_id' : notification.action_model_id,
+        'action_user' : 'admin',
+        'user' : notification.user.id,
+        'action_username': 'admin',
         'action_type' : notification.get_action_display(),
         'create_date' : notification.create_date.strftime('%H:%M %d-%m-%Y'),
         'booking_status' : booking.get_status_display(),
