@@ -22,7 +22,7 @@
                             <p>{% trans 'Your username and password didn\'t match. Please try again.' %}</p>
                         {% endif %}
 
-                        
+
                         <form method="post" action="{% url 'login' %}" id="loginform" class="form-horizontal" role="form">
                             {% csrf_token %}
 
@@ -52,7 +52,8 @@
 
                                     <div class="col-sm-12 controls">
                                       <input type="submit" value="{% trans 'Sign In' %}" id="btn-login" class="btn btn-success"/>
-                                      <a id="btn-fblogin" href="#" class="btn btn-primary">{% trans 'Login with Facebook' %}</a>
+                                      <a id="btn-fblogin" href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}" class="btn btn-primary">{% trans 'Login with Facebook' %}</a>
+                                      <a id="btn-fblogin" href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'index' %}" class="btn btn-primary">{% trans 'Login with Google' %}</a>
 
                                     </div>
                                 </div>

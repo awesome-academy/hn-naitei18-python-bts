@@ -26,6 +26,7 @@ urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('travel.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('auth/', include('social_django.urls', namespace='social')),
 )+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += (

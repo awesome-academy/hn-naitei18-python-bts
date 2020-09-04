@@ -301,7 +301,6 @@ def booking_status(request, pk,status):
     return HttpResponseRedirect(reverse('index'))
 
 
-
 class TourListView(generic.ListView):
     model = Tour
 
