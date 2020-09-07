@@ -28,7 +28,7 @@
                                 <td>{{booking.user.profile.phone}}</td>
                             </tr>
                             <tr>
-                                <td>address</td>
+                                <td>Address</td>
                                 <td>
                                     <address>{{booking.user.profile.address}}</address>
                                 </td>
@@ -65,7 +65,7 @@
                         </table>
                     </div>
                     <div class="container" style="text-align: right;">
-                            <button type="button" class="btn btn-success">Back</button>
+                            <button type="button" class="btn btn-success"><a href="{% url 'index' %}">Back</a></button>
                             <button type="button" class="btn btn-danger" data-toggle="modal"
                                 data-target="#exampleModalCenter">Delete</button>
                     </div>
@@ -121,7 +121,7 @@
 </div>
 <script>
     $('.cancel-detele').on('click',()=>{
-        $('#exampleModalCenter').modal('hide') 
+        $('#exampleModalCenter').modal('hide')
     })
 </script>
 {% endblock %}

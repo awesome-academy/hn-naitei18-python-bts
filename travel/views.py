@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from travel.forms import SignupForm, ProfileForm, UserForm
 from django.contrib.auth import authenticate
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect, HttpResponse
@@ -71,8 +72,8 @@ def get_notification(request):
     for i, notification in enumerate(notification_list):
         notification['action_username'] = notifications[i].action_user.username
         notification['action_type'] = notifications[i].get_action_display()
-        notification['create_date'] = notifications[i].create_date.strftime('%H:%M %d-%m-%Y') 
-        if int(notification['action']) == 3 : 
+        notification['create_date'] = notifications[i].create_date.strftime('%H:%M %d-%m-%Y')
+        if int(notification['action']) == 3 :
             notification['booking_status'] = Booking.objects.get(pk=notification['action_model_id']).get_status_display()
     message = {
         "notifications" : notification_list
@@ -206,14 +207,19 @@ def create_booking(request, pk):
         try:
             booking.save()
         except:
+            context = {
+                'tour': tour
+            }
             messages.error(request, 'Booking fail')
             return render(request, 'travel/create_booking.html', context=context)
         else:
             messages.success(request, 'Booking success!')
-            mess = '{0} is send a booking request to admin'.format(request.user)
+            current_site = get_current_site(request)
+            html_message = render_to_string('travel/request_booking_mail.html', {'booking': booking,'domain': current_site.domain})
             send_mail(
                 subject='Request booking',
                 message='{0} request booking with tour {1}'.format(request.user, tour),
+                html_message=html_message,
                 from_email=env('EMAIL_HOST_USER'),
                 recipient_list=[env('EMAIL_ADMIN'), ],
             )
@@ -253,6 +259,10 @@ def create_voting(request, pk):
             messages.success(request, 'Voting success!')
         return HttpResponseRedirect(reverse('tour-detail', kwargs={'pk': tour.id}))
 
+def logout(request):
+    auth_logout(request)
+    return redirect('index')
+
 
 def booking_detail(request, pk):
     booking = get_object_or_404(Booking, pk=pk)
@@ -282,6 +292,14 @@ def booking_delete(request, pk):
     else:
         messages.success(request, 'Delete booking success')
         return HttpResponseRedirect(reverse('booking-history'))
+
+def booking_status(request, pk,status):
+    booking = get_object_or_404(Booking, pk=pk)
+    booking.status = status
+    booking.save()
+
+    return HttpResponseRedirect(reverse('index'))
+
 
 
 class TourListView(generic.ListView):
