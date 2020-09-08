@@ -1,10 +1,12 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import Profile, Comment, Review, Activity, Notification
+
+from .models import Profile, Comment, Review, Notification, Activity, Tour
+
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
-
+import urllib.request
 
 class ReviewConsumer(WebsocketConsumer):
     def connect(self):
@@ -32,7 +34,8 @@ class ReviewConsumer(WebsocketConsumer):
         parentCommentId = text_data_json['parentCommentId']
         reviewId = text_data_json['reviewId']
         userId = text_data_json['userId']
-
+        if userId.isnumeric():
+            userId = int(userId)
         user = User.objects.get(id=userId)
         review = Review.objects.get(id=reviewId)
 
@@ -42,7 +45,7 @@ class ReviewConsumer(WebsocketConsumer):
         else:
             comment = Comment(user=user, review=review, content=message)
         comment.save()
-        activity = Activity(user=user, acti="comment on a review", url=review.get_absolute_url() )
+        activity = Activity(user=user, acti="comment on a review", url=review.get_absolute_url())
         activity.save()
         commentInfor = {
             'parentCommentId': parentCommentId,
@@ -71,6 +74,7 @@ class ReviewConsumer(WebsocketConsumer):
             'comment': comment,
             'htmlRender': htmlRender,
         }))
+
 
 class NotificationConsumer(WebsocketConsumer):
     def connect(self):
@@ -105,4 +109,34 @@ class NotificationConsumer(WebsocketConsumer):
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message
+        }))
+
+
+class SubmitReviewConsumer(WebsocketConsumer):
+    def connect(self):
+        self.submit_review_name = self.scope['url_route']['kwargs']['tourId']
+        self.review_group_name = 'review_%s' % self.submit_review_name
+
+        # Join room group
+        async_to_sync(self.channel_layer.group_add)(
+            self.review_group_name,
+            self.channel_name
+        )
+        self.accept()
+    def disconnect(self, code):
+        # Leave room group
+        async_to_sync(self.channel_layer.group_discard)(
+            self.review_group_name,
+            self.channel_name
+        )
+
+    def receive(self, text_data):
+        pass
+
+    def chat_message(self, event):
+        htmlRender = event['htmlRender']
+        # Send message to WebSocket
+        self.send(text_data=json.dumps({
+            # 'review': review,
+            'htmlRender': htmlRender,
         }))

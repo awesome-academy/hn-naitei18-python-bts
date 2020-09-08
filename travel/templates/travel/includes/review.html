@@ -1,0 +1,17 @@
+
+<div class="col-lg-4 col-md-6">
+    <div class="single_trip">
+        <div class="thumb">
+            <img src="{{ review.picture.url }}"
+                 style="max-height: 100px;max-width: content-box " alt="#">
+        </div>
+        <div class="info">
+            <div class="date">
+                <span>{{ review.create_date.date }}</span>
+            </div>
+            <a href="{{ review.get_absolute_url }}">
+                <h3>{{ review.title }}</h3>
+            </a>
+        </div>
+    </div>
+</div>

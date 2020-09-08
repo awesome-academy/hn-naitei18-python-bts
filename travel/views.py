@@ -20,8 +20,9 @@ from django.contrib.auth.models import User
 import sys
 from django.contrib import messages
 from django.core.paginator import Paginator
-
-
+from asgiref.sync import async_to_sync
+import json
+from channels.layers import get_channel_layer
 # Create your views here.
 
 
@@ -310,60 +311,29 @@ class TourListView(generic.ListView):
         cost_query = self.request.GET.get('cost')
         list = Tour.objects.all()
         if place_query is not None:
-            if place_query is "":
+            if place_query == "":
                 pass
             else:
                 list = Tour.objects.filter(title__icontains=place_query)
         if date_query is not None:
-            if date_query is 'Duration':
+            if date_query == 'Duration':
                 pass
             elif date_query.isnumeric():
                 date_query = int(date_query)
-                if date_query is 0:
+                if date_query == 0:
                     pass
                 else:
                     list = list.filter(date=date_query)
         if cost_query is not None:
-            if cost_query is 'Cost':
+            if cost_query == 'Cost':
                 pass
             elif cost_query.isnumeric():
                 cost_query = int(cost_query)
-                if cost_query is 0:
+                if cost_query == 0:
                     pass
                 else:
                     list = list.filter(base_price__in=range(cost_query))
         return list
-
-    def get_queryset(self):
-        place_query = self.request.GET.get('place')
-        date_query = self.request.GET.get('duration')
-        cost_query = self.request.GET.get('cost')
-        list = Tour.objects.all()
-        if place_query is not None:
-            if place_query is "":
-                pass
-            else:
-                list = Tour.objects.filter(title__icontains=place_query)
-        if date_query is not None:
-            if date_query is 'Duration':
-                pass
-            elif date_query.isnumeric():
-                date_query = int(date_query)
-                if date_query is 0:
-                    pass
-                else:
-                    list = list.filter(date=date_query)
-        if cost_query is not None:
-            if cost_query is 'Cost':
-                pass
-            elif cost_query.isnumeric():
-                cost_query = int(cost_query)
-                if cost_query is 0:
-                    pass
-                else:
-                    list = list.filter(base_price__in=range(cost_query))
-        return list
-
 
 def review_list(request):
     list = Review.objects.all().order_by('-create_date')
@@ -382,7 +352,7 @@ def review_list(request):
 def tour_detail(request, pk):
     model = get_object_or_404(Tour, pk=pk)
     suggest_tour = Tour.objects.all().exclude(pk=pk)[:3]
-    suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('?')[:3]
+    suggest_review = Tour.objects.get(pk=pk).review_set.all().order_by('-create_date')[:3]
     try:
         user = User.objects.get(username=str(request.user))
         voting = model.voting_set.get(user=user)
@@ -394,6 +364,34 @@ def tour_detail(request, pk):
         'suggest_review': suggest_review,
         'voting': voting,
     }
+    if request.method == 'POST':
+        title = request.POST.get('review-title', 'Default title')
+        content = request.POST.get('content', 'Default content')
+        rating = request.POST.get('rating', '5')
+        rating = int(rating)
+        if request.FILES.get('review-image', None) is not None:
+            picture = request.FILES['review-image']
+        review = Review(user=user, tour=model, title=title, content=content, rating=rating, picture=picture)
+
+        try:
+            review.save()
+        except:
+            messages.error(request, 'Submit review fail')
+        else:
+            messages.success(request, 'Submit review success!')
+            # activity = Activity(user=user, acti="create a review for tour " + model.title, url=review.get_absolute_url())
+            # activity.save()
+            channel_layer = get_channel_layer()
+            room_name = 'review_Tour' + str(review.tour.id)
+            htmlRender = render_to_string('travel/includes/review.html', {'review': review})
+            # Send message to room group
+            async_to_sync(channel_layer.group_send)(
+                room_name,
+                {
+                    'type': 'chat_message',
+                    'htmlRender': htmlRender,
+                }
+            )
     return render(request, 'travel/tour_detail.html', context)
 
 

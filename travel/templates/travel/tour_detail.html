@@ -2,337 +2,490 @@
 
 {% block content %}
 
-<!-- bradcam_area  -->
-<div class="bradcam_area bradcam_bg_4 " >
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="bradcam_text text-center">
-                    <h3>{{ tour.title }}</h3>
+    <!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_4 ">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>{{ tour.title }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--/ bradcam_area  -->
+    <!--/ bradcam_area  -->
 
-<!--================Blog Area =================-->
-<section class="blog_area single-post-area section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 posts-list">
-                <div class="single-post">
-                    <div class="feature-img">
-                        {% with tour.image_set.all|first as image %}
-                        <img class="img-fluid" src="../../../media/{{ image.url }}">
-                        {% endwith %}
-                    </div>
-                    <div class="blog_details">
-                        <h2>{{ tour.title }} </h2>
-                        <h3>{{tour.rating|floatformat}} <span class="voting-star fa fa-star fa-lg checked"></span></h3>
-                        <ul class="blog-info-link mt-3 mb-4">
-                            <li><a href="#"><i class="fa fa-calendar"></i>{{ tour.start_location }}
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post">
+                        <div class="feature-img">
+                            {% with tour.image_set.all|first as image %}
+                                <img class="img-fluid" src="../../../media/{{ image.url }}">
+                            {% endwith %}
+                        </div>
+                        <div class="blog_details">
+                            <h2>{{ tour.title }} </h2>
+                            <h3>{{ tour.rating }} <span class="voting-star fa fa-star fa-lg checked"></span></h3>
+                            <ul class="blog-info-link mt-3 mb-4">
+                                <li><a href="#"><i class="fa fa-calendar"></i>{{ tour.start_location }}
                                     - {{ tour.destination }} </a></li>
-                            <li><a href="#"><i class="fa fa-comments"></i>{{ tour.review_set.count }}</a></li>
-                        </ul>
-                        <a><i class="fa fa-home"> Notable place: {{ tour.place }} </i></a>
-                        <p class="excert">
-                        </p>
-                        <div class="quote-wrapper">
-                            <div class="quotes">
-                                {{ tour.content }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="navigation-top">
-                    <div class="d-sm-flex justify-content-between text-center">
-                        <div class="container">
-                            <div class="row">
-                                <p class="like-info">
-                                    <span class="align-middle"><i class="fa fa-bookmark"></i></span>
-                                    {% if tour.booking_set.count == 0 %}
-                                    Currently no booking tour. Booking now !
-                                    {% elif tour.booking_set.count == 1 %}
-                                    Currently 1 booking tour. Join us !
-                                    {% else %}
-                                    Currently {{ tour.booking_set.count }} booking tours. Choose your favorite time !
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="container rating-area" style="margin-top:10px;text-align:left;">
-                                        <span class="voting-star fa fa-star fa-lg"></span>
-                                        <span class="voting-star fa fa-star fa-lg"></span>
-                                        <span class="voting-star fa fa-star fa-lg"></span>
-                                        <span class="voting-star fa fa-star fa-lg"></span>
-                                        <span class="voting-star fa fa-star fa-lg"></span>
-                                        &nbsp;
-                                        <a style="display: inline-block;" data-toggle="modal"
-                                            data-target="#ratingModalCenter" href="#">vote</a>
-                                    </div>
-
-                                </div>
-                                <div class="col-3"></div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <a href="{% url 'booking' tour.pk %}" style="display: inline-block;">
-                                            <button type="submit" class="button button-contactForm btn_1 boxed-btn"
-                                                href="">Booking
-                                            </button>
-                                        </a>
-                                    </div>
+                                <li><a href="#"><i class="fa fa-comments"></i>{{ tour.review_set.count }}</a></li>
+                            </ul>
+                            <a><i class="fa fa-home"> Notable place: {{ tour.place }} </i></a>
+                            <p class="excert">
+                            </p>
+                            <div class="quote-wrapper">
+                                <div class="quotes">
+                                    {{ tour.content }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                {#actually there is review area #}
-                <div class="comments-area">
-                    <div class="recent_trip_area">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6">
-                                    <div class="section_title text-center mb_70">
-                                        <h3>Review from users</h3>
-                                    </div>
+                    <div class="navigation-top">
+                        <div class="d-sm-flex justify-content-between text-center">
+                            <div class="container">
+                                <div class="row">
+                                    <p class="like-info">
+                                        <span class="align-middle"><i class="fa fa-bookmark"></i></span>
+                                        {% if tour.booking_set.count == 0 %}
+                                            Currently no booking tour. Booking now !
+                                        {% elif tour.booking_set.count == 1 %}
+                                            Currently 1 booking tour. Join us !
+                                        {% else %}
+                                            Currently {{ tour.booking_set.count }} booking tours. Choose your favorite
+                                            time !
+                                        {% endif %}
+                                    </p>
                                 </div>
-                            </div>
-                            <div class="row">
-                                {% for review in suggest_review %}
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="single_trip">
-                                        <div class="thumb">
-                                            <img src="../../../media/{{ review.picture }}"
-                                                style="max-height: 100px;max-width: content-box " alt="#">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="container rating-area" style="margin-top:10px;text-align:left;">
+                                            <span class="voting-star fa fa-star fa-lg"></span>
+                                            <span class="voting-star fa fa-star fa-lg"></span>
+                                            <span class="voting-star fa fa-star fa-lg"></span>
+                                            <span class="voting-star fa fa-star fa-lg"></span>
+                                            <span class="voting-star fa fa-star fa-lg"></span>
+                                            &nbsp;
+                                            <a style="display: inline-block;" data-toggle="modal"
+                                               data-target="#ratingModalCenter" href="#">vote</a>
                                         </div>
-                                        <div class="info">
-                                            <div class="date">
-                                                <span>{{review.create_date.date}}</span>
-                                            </div>
-                                            <a href="{{ review.get_absolute_url }}">
-                                                <h3>{{ review.title }}</h3>
+
+                                    </div>
+                                    <div class="col-3"></div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <a href="{% url 'booking' tour.pk %}" style="display: inline-block;">
+                                                <button type="submit" class="button button-contactForm btn_1 boxed-btn"
+                                                        href="">Booking
+                                                </button>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <a type="submit" class="button button-contactForm btn_1 boxed-btn"
-                            href="{% url 'review-new' tour.id%}">Write your own review !
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="blog_right_sidebar ">
-                    <aside class="single_sidebar_widget search_widget">
-                        <form action="#">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Search Keyword'
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-                                    <div class="input-group-append">
-                                        <button class="btn" type="button"><i class="ti-search"></i></button>
+
+                    {#actually there is review area #}
+                    <div class="comments-area">
+                        <div class="recent_trip_area">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6">
+                                        <div class="section_title text-center mb_70">
+                                            <h3>Review from users</h3>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="row review-area">
+                                    {% for review in suggest_review %}
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="single_trip">
+                                                <div class="thumb">
+                                                    <img src="../../../media/{{ review.picture }}"
+                                                         style="max-height: 100px;max-width: content-box " alt="#">
+                                                </div>
+                                                <div class="info">
+                                                    <div class="date">
+                                                        <span>{{ review.create_date.date }}</span>
+                                                    </div>
+                                                    <a href="{{ review.get_absolute_url }}">
+                                                        <h3>{{ review.title }}</h3>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Search
-                            </button>
-                        </form>
-                    </aside>
-                    <aside class="single_sidebar_widget post_category_widget">
-                        <h4 class="widget_title">Category</h4>
-                        <ul class="list cat-list">
-                            <li>
-                                <a href="#" class="d-flex">
-                                    <p>Resaurant food</p>
-                                    <p>(37)</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex">
-                                    <p>Travel news</p>
-                                    <p>(10)</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex">
-                                    <p>Travel abroad</p>
-                                    <p>(03)</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="d-flex">
-                                    <p>domestic tourism</p>
-                                    <p>(11)</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </aside>
-                    <aside class="single_sidebar_widget tag_cloud_widget">
-                        <h4 class="widget_title">Tag Clouds</h4>
-                        <ul class="list">
-                            <li>
-                                <a href="#">Ha Long</a>
-                            </li>
-                            <li>
-                                <a href="#">Ha Noi</a>
-                            </li>
-                            <li>
-                                <a href="#">Nha Trang</a>
-                            </li>
-                            <li>
-                                <a href="#">Ho Chi Minh</a>
-                            </li>
-                            <li>
-                                <a href="#">Phu Quoc</a>
-                            </li>
-                        </ul>
-                    </aside>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--================ Blog Area end =================-->
-
-
-<div class="popular_places_area">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="section_title text-center mb_70">
-                    <h3>More places</h3>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            {% for sg_tour in suggest_tour %}
-            <div class="col-lg-4 col-md-6">
-                <div class="single_place">
-                    <div class="thumb">
-                        {% with sg_tour.image_set.all|first as image %}
-                        <img src="../../../media/{{ image.url }}">
-                        {% endwith %}
+                        </div>
+                        <div class="form-group">
+                            <a type="submit" class="button button-contactForm btn_1 boxed-btn"
+                               href="{% url 'review-new' tour.id %}">Write your own review !
+                            </a>
+                            <a style="display: inline-block;" data-toggle="modal"
+                               data-target="#reviewing" href="#">review now</a>
+                        </div>
                     </div>
-                    <div class="place_info">
-                        <a href="{{ sg_tour.get_absolute_url }}">
-                            <h3>{{ sg_tour.title }}</h3>
-                        </a>
-                        <p>{{ sg_tour.start_location }} - {{ sg_tour.destination }}</p>
-                        <div class="rating_days d-flex justify-content-between">
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar ">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                               onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Search
+                                </button>
+                            </form>
+                        </aside>
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+                            <ul class="list cat-list">
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Resaurant food</p>
+                                        <p>(37)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel news</p>
+                                        <p>(10)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel abroad</p>
+                                        <p>(03)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>domestic tourism</p>
+                                        <p>(11)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li>
+                                    <a href="#">Ha Long</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ha Noi</a>
+                                </li>
+                                <li>
+                                    <a href="#">Nha Trang</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ho Chi Minh</a>
+                                </li>
+                                <li>
+                                    <a href="#">Phu Quoc</a>
+                                </li>
+                            </ul>
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ Blog Area end =================-->
+
+
+    <div class="popular_places_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section_title text-center mb_70">
+                        <h3>More places</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for sg_tour in suggest_tour %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single_place">
+                            <div class="thumb">
+                                {% with sg_tour.image_set.all|first as image %}
+                                    <img src="../../../media/{{ image.url }}">
+                                {% endwith %}
+                            </div>
+                            <div class="place_info">
+                                <a href="{{ sg_tour.get_absolute_url }}">
+                                    <h3>{{ sg_tour.title }}</h3>
+                                </a>
+                                <p>{{ sg_tour.start_location }} - {{ sg_tour.destination }}</p>
+                                <div class="rating_days d-flex justify-content-between">
                             <span class="d-flex justify-content-center align-items-center">
                                 <i class="fa fa-star"> {{ sg_tour.rating }}</i>
                                 <a href="#">{{ sg_tour.review_set.count }} reviews</a>
                             </span>
-                            <div class="days">
-                                <i class="fa fa-clock-o"></i>
-                                <a href="#"> {{ sg_tour.date }}</a>
+                                    <div class="days">
+                                        <i class="fa fa-clock-o"></i>
+                                        <a href="#"> {{ sg_tour.date }}</a>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade rating-popup" id="ratingModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="ratingModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <form action="{% url 'voting' tour.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="form-check col-6">
+                                        <input class="form-check-input" type="radio" value="1" id="star1" name="voting">
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="form-check col-6">
+                                        <input class="form-check-input" type="radio" value="2" id="star2" name="voting">
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="form-check col-6">
+                                        <input class="form-check-input" type="radio" value="3" id="star3" name="voting">
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="form-check col-6">
+                                        <input class="form-check-input" type="radio" value="4" id="star4" name="voting">
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="form-check col-6">
+                                        <input class="form-check-input" type="radio" value="5" id="star5" name="voting">
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                        <span class="voting-star fa fa-star fa-lg checked"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-10">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
 
+    <div class="modal fade " id="reviewing" tabindex="-1" role="dialog"
+         aria-labelledby="ratingModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 1000px">
+            <div class="modal-content">
+                <div class="booking-form review" name="review" id="review">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}`
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <div class="select" style="width: auto; ">
+                                                                <select name="tour-name">
+                                                                    <option value="{{ tour.id }}"
+                                                                            selected>{{ tour.title }}</option>
+                                                                </select>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                                        <li class="nav-item">
+                                                            <div class="d-inline-block">
+                                                                <a>Rating</a>
+                                                                <div class="select" style="width: auto; ">
+                                                                    <select name="rating" class="review-rating">
+                                                                        <option value="1" name="rating">1</option>
+                                                                        <option value="2" name="rating">2</option>
+                                                                        <option value="3" name="rating">3</option>
+                                                                        <option value="4" name="rating">4</option>
+                                                                        <option value="5" name="rating" selected>5
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content ml-1" id="myTabContent">
+                                                        <div class="tab-pane fade show active">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <input class="review-title form-control input-review-title"
+                                                                               name="review-title"
+                                                                               type="text"
+                                                                               id="review-title"
+                                                                               required
+                                                                               placeholder="タイトル">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="middle">
+                                                                        <img src="" id="review-image"
+                                                                             name="review-image"
+                                                                             class="img-circle img-thumbnail review-image"
+                                                                             style="width: 250px; height: 250px; object-fit: contain"
+                                                                             alt="Give us a shot about your trip">
+                                                                        <input type="button" class="btn btn-secondary"
+                                                                               id="btnChangePicture"
+                                                                               value="Upload image"/>
+                                                                        <input class="" type="file"
+                                                                               style="display: none; "
+                                                                               id="profilePicture"
+                                                                               name="review-image"/>
+                                                                        <br/>
+                                                                        <br/>
+                                                                    </div>
+                                                                </div>
 
-<div class="modal fade rating-popup" id="ratingModalCenter" tabindex="-1" role="dialog"
-    aria-labelledby="ratingModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="card">
-                <div class="card-body">
-                    <div class="container">
-                        <form action="{% url 'voting' tour.id %}" method="post">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="form-check col-6">
-                                    <input class="form-check-input" type="radio" value="1" id="star1" name="voting">
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                    <textarea class="form-control w-100 review-content" name="content"
+                                                              id="content"
+                                                              cols="30" rows="9" required
+                                                              placeholder="ご自由に書いてください。"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 left-padding justify-content-between form-group">
+                                    <a href="">
+                                        <button type="submit"
+                                                class="review-submit button button-contactForm btn_1 boxed-btn">Submit
+                                            review
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="form-check col-6">
-                                    <input class="form-check-input" type="radio" value="2" id="star2" name="voting">
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="form-check col-6">
-                                    <input class="form-check-input" type="radio" value="3" id="star3" name="voting">
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="form-check col-6">
-                                    <input class="form-check-input" type="radio" value="4" id="star4" name="voting">
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="form-check col-6">
-                                    <input class="form-check-input" type="radio" value="5" id="star5" name="voting">
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                    <span class="voting-star fa fa-star fa-lg checked"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2"></div>
-                                <div class="col-10"><button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 
-<script>
-    star = parseInt('{{voting.star}}')
-    star_rating = $('.rating-area .voting-star')
-    if (star_rating) {
-        for (let i = 0; i < star; i++) {
-            $(star_rating[i]).addClass('checked')
+    <script>
+        star = parseInt('{{voting.star}}')
+        star_rating = $('.rating-area .voting-star')
+        if (star_rating) {
+            for (let i = 0; i < star; i++) {
+                $(star_rating[i]).addClass('checked')
+            }
         }
-    }
-</script>
+    </script>
 
+    <script>
+
+        const tourName = 'Tour' + '{{tour.id}}'
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/review/'
+            + tourName
+            + '/'
+        );
+        const review_title = $('.review-title')
+        const review_content = $('.review-content')
+        const review_rating = $('.review-rating')
+        const review_image = $('.review-image')
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data)
+            const htmlRender = data.htmlRender
+            renderReview(htmlRender)
+        };
+
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        function sendReview(title, content, rating, image) {
+            chatSocket.send(JSON.stringify({
+                'userId': '{{user.id}}',
+                'tourId': '{{tour.id}}',
+                'title': title,
+                'content': content,
+                'rating': rating,
+                'picture': image,
+            }));
+        }
+
+        // Render Comment
+        function renderReview(htmlRender) {
+            reviewArea = $('.review-area')
+            reviewArea.prepend(`
+                ${htmlRender}
+            `)
+        }
+
+    </script>
 {% endblock %}
