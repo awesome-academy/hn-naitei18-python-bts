@@ -89,7 +89,7 @@ class Booking(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
 
     class Status(models.IntegerChoices):
-        WATTING = 1
+        WAITTING = 1
         ACCEPTED = 2
         REJECT = 3
         CANCEL = 4
@@ -260,32 +260,31 @@ def create_un_folow_notifications(sender, **kwargs):
 
 def create_change_booking_notifications(sender, **kwargs):
     booking = kwargs['instance']
-    # channel_layer = get_channel_layer()
-    # superusers = User.objects.filter(is_superuser=True)
-    # action_user = superusers[0]
-    # room_name = 'user_' + str(booking.user.id)
-    # notification = Notification(user = booking.user, action_user = action_user ,action_model_id = booking.id, action=3, status=1)
-    # notification.save()
-    # message = {
-    #     'pk' : notification.pk,
-    #     'action' : notification.action ,
-    #     'action_model_id' : notification.action_model_id,
-    #     'action_user' : 'admin',
-    #     'user' : notification.user.id,
-    #     'action_username': 'admin',
-    #     'action_type' : notification.get_action_display(),
-    #     'create_date' : notification.create_date.strftime('%H:%M %d-%m-%Y'),
-    #     'booking_status' : booking.get_status_display(),
-    # }
-    # message = json.dumps(message)
-    # async_to_sync(channel_layer.group_send)(
-    #     room_name,{
-    #         'type': 'chat_message',
-    #         'message': message
-    #     }
-    # )
-
-
+    if booking.status != 1 :
+        channel_layer = get_channel_layer()
+        superusers = User.objects.filter(is_superuser=True)
+        action_user = superusers[0]
+        room_name = 'user_' + str(booking.user.id)
+        notification = Notification(user = booking.user, action_user = action_user ,action_model_id = booking.id, action=3, status=1)
+        notification.save()
+        message = {
+            'pk' : notification.pk, 
+            'action' : notification.action , 
+            'action_model_id' : notification.action_model_id, 
+            'action_user' : 'admin', 
+            'user' : notification.user.id, 
+            'action_username': 'admin', 
+            'action_type' : notification.get_action_display(),
+            'create_date' : notification.create_date.strftime('%H:%M %d-%m-%Y'),
+            'booking_status' : booking.get_status_display(),
+        }
+        message = json.dumps(message)
+        async_to_sync(channel_layer.group_send)(
+            room_name,{
+                'type': 'chat_message',
+                'message': message
+            }
+        )
 
 post_save.connect(create_change_booking_notifications, sender=Booking)
 post_save.connect(create_new_folow_notifications, sender=Follower)
