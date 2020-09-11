@@ -22,10 +22,10 @@ function openLog(evt, cityName) {
 }
 
 $(function () {
-    $('.hidden-comment1').slice(0, 2).show();
+    $('.hidden-comment1').slice(0, 5).show();
     $("#loadMore1 a").on('click', function (e) {
         e.preventDefault();
-        $('.hidden-comment1:hidden').slice(0, 2).slideDown();
+        $('.hidden-comment1:hidden').slice(0, 5).slideDown();
         if ($('.hidden-comment1:hidden').length == 0) {
             $("#load").fadeOut('slow');
         }
@@ -33,7 +33,7 @@ $(function () {
 });
 
 $(function () {
-    $('.hidden-comment2').slice(0, 2).show();
+    $('.hidden-comment2').slice(0, 5).show();
     $("#loadMore2 a").on('click', function (e) {
         e.preventDefault();
         $('.hidden-comment2:hidden').slice(0, 2).slideDown();

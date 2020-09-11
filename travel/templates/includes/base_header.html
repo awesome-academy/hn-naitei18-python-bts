@@ -91,7 +91,7 @@
 </header>
 <script>
     var notifications = []
-    const userId = '{{user.id}}'
+    const userId = '{{request.user.id}}'
     function renderHtml(notification) {
         if(parseInt(notification.action) == 1){
             $('.notification-icon .dropdown-menu').append(`
