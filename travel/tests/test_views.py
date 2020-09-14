@@ -26,4 +26,4 @@ class ReviewListViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_pagination(self):
-        response = self.
+        pass

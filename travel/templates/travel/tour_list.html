@@ -75,7 +75,7 @@
                                     <div class="single_place">
                                         <div class="thumb">
                                             {% with tour.image_set.all|first as image %}
-                                                <img src="../../../media/{{ image.url }}">
+                                                <img src="../../../media/{{ image.url }}" style=" max-height: 200px;max-width: content-box ">
                                             {% endwith %}
                                             <a href="" class="prise">${{ tour.base_price }}</a>
                                         </div>
