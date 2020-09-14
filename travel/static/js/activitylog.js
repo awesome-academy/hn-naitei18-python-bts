@@ -36,7 +36,7 @@ $(function () {
     $('.hidden-comment2').slice(0, 5).show();
     $("#loadMore2 a").on('click', function (e) {
         e.preventDefault();
-        $('.hidden-comment2:hidden').slice(0, 2).slideDown();
+        $('.hidden-comment2:hidden').slice(0, 5).slideDown();
         if ($('.hidden-comment2:hidden').length == 0) {
             $("#load").fadeOut('slow');
         }

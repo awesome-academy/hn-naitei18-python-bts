@@ -11,6 +11,7 @@
         <div class="desc">
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
+
                     {% if request.user == comment.user %}
                         <a href="{% url 'profile' %}">
                     {% else %}
