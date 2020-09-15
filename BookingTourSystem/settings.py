@@ -179,5 +179,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 CRONJOBS = [
-    ('0 0 1 * *', 'travel.cron.sendStatisticEmail')
+    ('* * * * *', 'travel.cron.sendStatisticEmail')
 ]

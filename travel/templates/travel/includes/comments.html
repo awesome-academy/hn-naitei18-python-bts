@@ -2,19 +2,23 @@
     <div class="user justify-content-between d-flex">
         <div class="thumb">
             {% if comment.user.profile.avatar %}
-            <img src="{{ comment.user.profile.avatar.url }}" alt="" >
+            <img src="{{ comment.user.profile.avatar.url }}" alt="">
             {% else %}
             {% load static %}
-            <img src="{% static '/img/userde.JPG' %}"  alt="" >
+            <img src="{% static '/img/userde.JPG' %}" alt="">
             {% endif %}
         </div>
         <div class="desc">
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
-                    <h5>
-                        <a href="#">{{ comment.user.username }}</a>
-                    </h5>
-                    <p class="date">{{ comment.create_date|date:"Y-m-d" }} </p>
+                    {% if request.user == comment.user %}
+                        <a href="{% url 'profile' %}">
+                    {% else %}
+                        <a href="{% url 'profile-details' comment.user.id %}">
+                    {% endif %}
+                    <h4>{{ comment.user.username }}</h4>
+                    </a>
+                        <p class="date">{{ comment.create_date|date:"Y-m-d" }} </p>
                 </div>
             </div>
             <p class="comment" style=" word-break: break-all">
@@ -23,5 +27,3 @@
         </div>
     </div>
 </div>
-
-
