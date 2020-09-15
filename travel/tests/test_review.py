@@ -15,7 +15,7 @@ class ReviewModelTest(TestCase):
         User.objects.create(username="name")
         Review.objects.create(user=User.objects.get(id=1), tour=Tour.objects.get(id=1), title="title",
                               picture=SimpleUploadedFile(name='test_image.jpg',
-                                                         content=open("media/images/avatar/download.jpg", 'rb').read(),
+                                                         content=open("media/images/avatar/download.jpeg", 'rb').read(),
                                                          content_type='image/jpeg'),
                               content="content about the trip", rating=5)
 
